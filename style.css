@@ -1,0 +1,214 @@
+body {
+    background-color: black;
+}
+
+.disable-dbl-tap-zoom {
+    touch-action: manipulation;
+  }
+
+div#welcome {
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background: #0d7e54;
+    text-align: center;
+    display: flex;
+    color: white;
+    flex-direction: column;
+    justify-content: space-evenly;
+    top: 0;
+    left: 0;
+}
+
+#startGame {
+    padding: 5%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#gameScreen {
+    width: 63%;
+    height: 98%;
+    margin: auto;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    font-family: monospace;
+    border-radius: 8px;
+    justify-content: space-between;
+}
+
+#target-num {
+    display: block;
+    font-size: 5vh;
+    position: absolute;
+    left: 42%;
+    color: aquamarine;
+    background: violet;
+    font-family: system-ui;
+    border-radius: 46%;
+    padding: 0 2%;
+    z-index: 2;
+}
+
+.fallingNumber {
+    font-size: 22pt;
+    color: white;
+    font-weight: 600;
+    position: absolute;
+    left: 38%;
+    top: 0;
+    transition-duration: 0.1s;
+    background: white;
+    color: black;
+    width: 50px;
+    height: 52px;
+    border-radius: 38px;
+    display: flex;
+    justify-content: space-evenly;
+    border: 5px solid red;
+    line-height: 53px;
+}
+
+.path {
+    flex-basis: 32%;
+    position: relative;
+    height: 100%;
+}
+
+#player {
+    width: 15%;
+    height: 9%;
+    background: #06b390;
+    position: absolute;
+    bottom: 3%;
+    left: 14%;
+    border-radius: 16px;
+    z-index: 1;
+    transition-duration: 0.1s;
+    text-align: center;
+    line-height: 4;
+    font-size: 17pt;
+    color: white;
+}
+
+#player::after {
+    width: 75%;
+    height: 58%;
+    background: #0e967a;
+    position: absolute;
+    content: ' ';
+    left: 9%;
+    top: 22%;
+    border: 3px solid #117863;
+    z-index: -1;
+    border-radius: 6px;
+}
+
+#player::before {
+        position: absolute;
+        content: ' ';
+        width: 92px;
+        background: #e8e826;
+        height: 6px;
+        left: 0;
+        top: 0%;
+        background: linear-gradient(to LEFT, white 32%,#06b390 33%,#06b390 66%,white 67%);
+        border-radius: 16px;
+        box-shadow: 0 -5px 5px #ffffff59;
+}
+
+#targetNumber {
+    text-align: center;
+    font-size: 30pt;
+    color: #343030;
+    font-family: monospace;
+}
+
+#currentVal {
+    margin-top: 37%;
+}
+
+#added {
+    color: #fff000;
+    opacity: 0.8;
+    transition-duration: 0.8;
+    font-size: 14pt;
+    -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+         -o-animation: fadein 2s; /* Opera < 12.1 */
+            animation: fadein 2s;
+}
+
+.shake {
+    animation: shake 0.9s both infinite;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(1px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-2px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(2px, 0, 0);
+    }
+  }
+
+  .border {
+    height: 101%;
+    width: 6px;
+    left: 50%;
+    position: absolute;
+    background: linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(90deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%), linear-gradient(0deg, white 50%, transparent 50%);
+    background-repeat: repeat-y, repeat-y;
+    background-size: 19px 12px, 21px 14px, 19px 59px, 4px 15px;
+    background-position: 0px 0px, 204px 100px, 0px 109px, 200px 0px;
+    padding: 1px;
+    animation: border-dance 0.5s infinite linear;
+  }
+  @keyframes border-dance {
+    100% {
+      background-position: 0px 0px, 300px 116px, 0px 150px, 216px 0px;
+    }
+    0% {
+      background-position: 300px 0px, 0px 116px, 0px 0px, 216px 150px;
+    }
+  }  
+
+  .main {
+    background-image: url(https://opengameart.org/sites/default/files/background-1_0.png);
+    background-repeat-x: no-repeat;
+    background-size: 103%;
+    background-repeat-y: repeat;
+    background-position-y: 27px;
+    animation: loopingRoad 0.1s infinite;
+
+  }
+
+  @keyframes loopingRoad {
+    100% {
+      background-position-y: 1000%;
+    }
+    0% {
+      background-position-y: 0%
+    }
+  } 

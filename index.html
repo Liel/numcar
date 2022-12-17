@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css" />
+        <script src="app.js"></script>
+        <title></title>
+    </head>
+    <body class="disable-dbl-tap-zoom">
+        <div id="welcome">
+            <button id="startGame" onclick="startGame()">START</button>
+            <img src="https://img.pikbest.com/png-images/qiantu/hand-drawn-man-driving-a-pickup-truck-to-move-original-elements_2571910.png" />
+            <h2>WELCOME</h2>
+            <div>
+            </div>
+        </div>
+        <div id="container" class="main">
+            <div id="targetNumber">The Number is <span id="target-num"></span></div>
+            <!--onmouseover="stopAnimation()" onmouseout="keepAnimation()" -->
+            <div id="gameScreen">
+                <div class="path">
+                </div>
+                <div class="path">
+                </div>
+                <div class="path">
+                </div>
+                <div class="path">
+                </div>
+                <!-- <div class="border"></div> -->
+                <div path="0" id="player" class="shake" style="left: 45%">
+                    <div id="currentVal"></div>
+                    <div id="added"></div>
+                </div>
+            </div>
+            <div id="winScreen">
+                WIN
+            </div>
+            <div id="aggregatedValue"></div>
+            <!--<button onclick="stop()">STOP</button>-->
+        </div>
+    </body>
+</html>
