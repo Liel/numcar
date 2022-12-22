@@ -1,8 +1,11 @@
 var gameLoopInterval;
 var generateItemsTimeout;
+
 const pathSize = 24;
 const pathNum = 4;
 const numInPathPositionLeftRange = [36,39];
+const playerBottom = 35;
+const gestures = ["Amazing", "Great", "Awesome", "Well Done", "WOW"];
 
 var playerDirection = ""
 var animationAllowed = true;
@@ -15,7 +18,6 @@ var currentPath = 0;
 
 var player;
 var playerBounding;
-const playerBottom = 35;
 var targetNumber;
 var gameScreenHeight; 
 
@@ -71,12 +73,13 @@ function calculateAggreatedValue(value) {
 
 function calcAndPrintAggreatedValue(animationValue) {
     if(aggregatedValue == targetNumber) {
-        alert("Win!!!")
-        alert("took you just " + moves + " moves")
+        // alert("Win!!!")
+        // alert("took you just " + moves + " moves")
+        showGestureAnimation();
         reset();
     }
 
-    document.getElementById("aggregatedValue").innerHTML = aggregatedValue
+    document.getElementById("currentCount").innerHTML = aggregatedValue
     document.getElementById("currentVal").innerHTML = aggregatedValue
     showAddedAnimation(animationValue)
 }
@@ -93,18 +96,25 @@ function generateNewNumberItem() {
     if(!animationAllowed)
         return;
 
-  const rndInt = randomIntFromInterval(1, 10)
   const toPath = randomIntFromInterval(1, pathNum)
-  const isPlus = randomIntFromInterval(1, 2) == 1
-
+  var rndInt = randomIntFromInterval(1, 10)
+  var isPlus = randomIntFromInterval(1, 2) == 1
+  var isGold = false;
+  if(moves > 0 && moves % 3 === 0) {
+    rndInt = targetNumber - aggregatedValue
+    isPlus = rndInt > 0
+    rndInt = Math.abs(rndInt)
+    isGold = true;
+    moves++;
+  }
   const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%" 
                         operator="${isPlus ? "plus" : "minus"}" 
                         path="${toPath - 1}" 
-                        class='fallingNumber'>${isPlus ? "+" : "-"}${rndInt}<div>`
+                        class='fallingNumber ${isGold ? "gold" : ""}'>${isPlus ? "+" : "-"}${rndInt}<div>`
   
   // print to screen
   document.getElementsByClassName('path')[toPath - 1].insertAdjacentHTML( 'beforeend', htmlItem );
-  const movesFactor = moves * 3;
+  const movesFactor = 0;
   
   generateItemsTimeout = setTimeout(generateNewNumberItem, randomIntFromInterval(600 - movesFactor, 1200 - movesFactor));
 }
@@ -122,7 +132,7 @@ function keepAnimation() {
 }
 
 function generateNewTargetNumber() {
-    targetNumber = randomIntFromInterval(10, 30);
+    targetNumber = randomIntFromInterval(10, 14);
     document.getElementById('target-num').innerHTML = targetNumber;
 }
 
@@ -192,6 +202,12 @@ function stop() {
     clearInterval(generateItemsInterval)
 }
 
+function showGestureAnimation() {
+    const gestureElement = document.getElementById("gesture")
+    gestureElement.innerHTML = gestures[randomIntFromInterval(0, gestures.length - 1)]
+    gestureElement.classList.add("explode")
+    setTimeout(() => { gestureElement.innerHTML = "" }, 1200)
+}
 
 function startGame() {
     setTimeout(startup, 200)

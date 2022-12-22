@@ -1,0 +1,7 @@
+[
+    {
+        "randomTargetNumberRange": [10, 14],
+        "goldItemMovesFrequency": 3,
+        "randomNumbersRange": [1, 10]
+    }
+]

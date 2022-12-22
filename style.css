@@ -1,5 +1,6 @@
 body {
     background-color: black;
+    overflow:hidden;
 }
 
 .disable-dbl-tap-zoom {
@@ -73,6 +74,10 @@ div#welcome {
     line-height: 53px;
 }
 
+.gold {
+    background-color: #fff000;
+}
+
 .path {
     flex-basis: 32%;
     position: relative;
@@ -80,9 +85,9 @@ div#welcome {
 }
 
 #player {
-    width: 15%;
+    width: 24%;
     height: 9%;
-    background: #06b390;
+    /* background: #06b390; */
     position: absolute;
     bottom: 3%;
     left: 14%;
@@ -92,10 +97,36 @@ div#welcome {
     text-align: center;
     line-height: 4;
     font-size: 17pt;
+    background-size: 125%;
     color: white;
+    background-image: url(https://freesvg.org/img/car_topview.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
 }
 
-#player::after {
+#currentCount {
+    position: absolute;
+    left: 32%;
+    top: 3%;
+    font-size: 3vh;
+    z-index: 4;
+    color: red;
+    color: white;
+    background: #0043ff;
+    border-radius: 48%;
+    padding: 1%;
+}
+
+#gesture {
+    position: absolute;
+    font-size: 9vh;
+    top: 29%;
+    left: 15%;
+    color: deeppink;
+    font-family: sans-serif;
+}
+
+/* #player::after {
     width: 75%;
     height: 58%;
     background: #0e967a;
@@ -106,9 +137,9 @@ div#welcome {
     border: 3px solid #117863;
     z-index: -1;
     border-radius: 6px;
-}
+} */
 
-#player::before {
+/* #player::before {
         position: absolute;
         content: ' ';
         width: 92px;
@@ -119,7 +150,7 @@ div#welcome {
         background: linear-gradient(to LEFT, white 32%,#06b390 33%,#06b390 66%,white 67%);
         border-radius: 16px;
         box-shadow: 0 -5px 5px #ffffff59;
-}
+} */
 
 #targetNumber {
     text-align: center;
@@ -212,3 +243,11 @@ div#welcome {
       background-position-y: 0%
     }
   } 
+
+  .explode {
+    animation:letter_explode 1s 5s forwards;
+  }
+  @keyframes letter_explode {
+      0% {letter-spacing:0;opacity:1;}
+      100% {letter-spacing:7vh;opacity:0;}
+  }
