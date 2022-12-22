@@ -6,7 +6,7 @@ const pathNum = 4;
 const numInPathPositionLeftRange = [36,39];
 const playerBottom = 35;
 const gestures = ["Amazing", "Great", "Awesome", "Well Done", "WOW"];
-const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp"];
+const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp", "rotateOut"];
 
 var playerDirection = ""
 var animationAllowed = true;
@@ -168,6 +168,7 @@ function movePlayer(direction) {
 
 function startup() {
     generateNewTargetNumber();
+    calcAndPrintAggreatedValue(0)
     player = document.getElementById("player");
     player.style.bottom = playerBottom + "%"
     player.setAttribute("top", player.getBoundingClientRect().top);

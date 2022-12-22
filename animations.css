@@ -3,6 +3,7 @@
     animation-name: zoomOutLeft;
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
+    color:burlywood !important;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
     }
@@ -69,6 +70,7 @@
             animation-name: zoomOutUp;
             -webkit-animation-duration: 1s;
             animation-duration: 1s;
+            color: cyan !important;
             -webkit-animation-fill-mode: both;
             animation-fill-mode: both;
             }
@@ -108,3 +110,41 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
             }
             } 
+
+            .rotateOut {
+                -webkit-animation-name: rotateOut;
+                animation-name: rotateOut;
+                -webkit-animation-duration: 1s;
+                animation-duration: 1s;
+                color: chartreuse !important;
+                -webkit-animation-fill-mode: both;
+                animation-fill-mode: both;
+                }
+                @-webkit-keyframes rotateOut {
+                0% {
+                -webkit-transform-origin: center;
+                transform-origin: center;
+                opacity: 1;
+                }
+                100% {
+                -webkit-transform-origin: center;
+                transform-origin: center;
+                -webkit-transform: rotate3d(0, 0, 1, 200deg);
+                transform: rotate3d(0, 0, 1, 200deg);
+                opacity: 0;
+                }
+                }
+                @keyframes rotateOut {
+                0% {
+                -webkit-transform-origin: center;
+                transform-origin: center;
+                opacity: 1;
+                }
+                100% {
+                -webkit-transform-origin: center;
+                transform-origin: center;
+                -webkit-transform: rotate3d(0, 0, 1, 200deg);
+                transform: rotate3d(0, 0, 1, 200deg);
+                opacity: 0;
+                }
+                } 
