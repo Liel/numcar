@@ -86,7 +86,7 @@ div#welcome {
 
 #player {
     width: 24%;
-    height: 9%;
+    height: 15%;
     /* background: #06b390; */
     position: absolute;
     bottom: 3%;
@@ -121,9 +121,10 @@ div#welcome {
     position: absolute;
     font-size: 9vh;
     top: 29%;
-    left: 15%;
+    left: 23%;
     color: deeppink;
-    font-family: sans-serif;
+    font-family: 'Rubik 80s Fade', cursive;
+    text-transform: uppercase;
 }
 
 /* #player::after {
@@ -232,7 +233,8 @@ div#welcome {
     background-repeat-y: repeat;
     background-position-y: 27px;
     animation: loopingRoad 0.1s infinite;
-
+    height: 100%;
+    width: 100%;
   }
 
   @keyframes loopingRoad {
@@ -243,11 +245,3 @@ div#welcome {
       background-position-y: 0%
     }
   } 
-
-  .explode {
-    animation:letter_explode 1s 5s forwards;
-  }
-  @keyframes letter_explode {
-      0% {letter-spacing:0;opacity:1;}
-      100% {letter-spacing:7vh;opacity:0;}
-  }

@@ -6,6 +6,7 @@ const pathNum = 4;
 const numInPathPositionLeftRange = [36,39];
 const playerBottom = 35;
 const gestures = ["Amazing", "Great", "Awesome", "Well Done", "WOW"];
+const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp"];
 
 var playerDirection = ""
 var animationAllowed = true;
@@ -50,10 +51,10 @@ function gameLoop() {
         playerBounding = player.getBoundingClientRect();
         // todo: check collusion also when chaning path (left attr) !!!!
         //else if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 12) 
-        if((itemTop <= 65 && itemTop >= 54)  && (itemLeft <= currentPlayerLeft + 15 && itemLeft > currentPlayerLeft)) {
+        if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 18)  && 
+            (itemLeft <= currentPlayerLeft + 15 && itemLeft > currentPlayerLeft)) {
             console.log("hit!!! " + button.innerHTML)
             moves++;
-            //speedOfFallingFactor += 0.3
             calculateAggreatedValue(button.textContent);
             button.remove();
         }
@@ -204,9 +205,13 @@ function stop() {
 
 function showGestureAnimation() {
     const gestureElement = document.getElementById("gesture")
-    gestureElement.innerHTML = gestures[randomIntFromInterval(0, gestures.length - 1)]
-    gestureElement.classList.add("explode")
-    setTimeout(() => { gestureElement.innerHTML = "" }, 1200)
+    gestureElement.innerHTML = gestures[randomIntFromInterval(0, gestures.length - 1)];
+    const animationClass = gesturesClasses[randomIntFromInterval(0, gesturesClasses.length)]
+    gestureElement.classList.add(animationClass)
+    setTimeout(() => { 
+        gestureElement.innerHTML = "";
+        gestureElement.classList.remove(animationClass)
+     }, 1200)
 }
 
 function startGame() {
