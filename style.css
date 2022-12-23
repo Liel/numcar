@@ -12,7 +12,7 @@ div#welcome {
     z-index: 3;
     width: 100%;
     height: 100%;
-    background: #0d7e54;
+    background: #000000;
     text-align: center;
     display: flex;
     color: white;
@@ -24,6 +24,9 @@ div#welcome {
 
 #startGame {
     padding: 5%;
+    background: #f6cf02;
+    font-size: 7vh;
+    font-family: 'Rubik 80s Fade', cursive;
 }
 
 .hidden {
@@ -99,7 +102,7 @@ div#welcome {
     font-size: 17pt;
     background-size: 125%;
     color: white;
-    background-image: url(https://freesvg.org/img/car_topview.png);
+    background-image: url(assets/car_topview.png);
     background-repeat: no-repeat;
     background-position-x: center;
 }
