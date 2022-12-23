@@ -20,6 +20,9 @@ div#welcome {
     justify-content: space-evenly;
     top: 0;
     left: 0;
+    background-image: url(assets/bg.jpeg);
+    background-position-y: 100%;
+    background-repeat: no-repeat;
 }
 
 #startGame {
@@ -59,7 +62,7 @@ div#welcome {
 }
 
 .fallingNumber {
-    font-size: 22pt;
+    font-size: 28pt;
     color: white;
     font-weight: 600;
     position: absolute;
@@ -68,13 +71,13 @@ div#welcome {
     transition-duration: 0.1s;
     background: white;
     color: black;
-    width: 50px;
-    height: 52px;
+    width: 68px;
+    height: 68px;
     border-radius: 38px;
     display: flex;
     justify-content: space-evenly;
     border: 5px solid red;
-    line-height: 53px;
+    align-items: center;
 }
 
 .gold {
@@ -90,7 +93,6 @@ div#welcome {
 #player {
     width: 24%;
     height: 15%;
-    /* background: #06b390; */
     position: absolute;
     bottom: 3%;
     left: 14%;
@@ -251,3 +253,22 @@ div#welcome {
       background-position-y: 0%
     }
   } 
+
+  #coins {
+    position: absolute;
+    font-size: 3vh;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    background: #f1cd71;
+    color: #cc9933;
+    flex-direction: column;
+    border: 7px solid #cc9933;
+    border-radius: 100%;
+    padding: 1%;
+    top: 1%;
+    left: 3%;
+    font-family: monospace;
+  }

@@ -12,6 +12,7 @@ var playerDirection = ""
 var animationAllowed = true;
 var aggregatedValue = 0;
 var moves = 0;
+var coins = 0;
 var speedOfFallingFactor = 1;
 var gameScreenWidth;
 
@@ -29,7 +30,7 @@ function gameLoop() {
     const currentPlayerLeft = parseFloat(player.style.left);
     if(playerDirection && player) {
         const toRight = playerDirection == "right";
-        if((!toRight && currentPlayerLeft >= 0) || (toRight && currentPlayerLeft <= 100)) 
+        if((!toRight && currentPlayerLeft > 0) || (toRight && currentPlayerLeft < 100)) 
         {
             player.style.left = toRight ? `${currentPlayerLeft + 5}%` : `${currentPlayerLeft - 5}%`;
         }
@@ -52,7 +53,7 @@ function gameLoop() {
         // todo: check collusion also when chaning path (left attr) !!!!
         //else if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 12) 
         if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 18)  && 
-            (itemLeft <= currentPlayerLeft + 15 && itemLeft > currentPlayerLeft)) {
+            (itemLeft <= currentPlayerLeft + 24 && itemLeft > currentPlayerLeft)) {
             console.log("hit!!! " + button.innerHTML)
             moves++;
             calculateAggreatedValue(button.textContent);
@@ -77,6 +78,7 @@ function calcAndPrintAggreatedValue(animationValue) {
         // alert("Win!!!")
         // alert("took you just " + moves + " moves")
         showGestureAnimation();
+        increaseCoins();
         reset();
     }
 
@@ -91,6 +93,15 @@ function showAddedAnimation(value) {
         document.getElementById("added").innerHTML = ""
     }, 1000)
 
+}
+
+function increaseCoins() {
+    coins++;
+    const coinsElement = document.getElementById("coins")
+    coinsElement.innerHTML = coins;
+
+    if(coinsElement.classList.contains("hidden"))
+        coinsElement.classList.remove("hidden")
 }
 
 function generateNewNumberItem() {
