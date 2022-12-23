@@ -8,9 +8,8 @@
     </head>
     <body class="disable-dbl-tap-zoom">
         <div id="welcome">
-            <button id="startGame" onclick="startGame()">START</button>
+            <button id="startGame" class="shake" onclick="startGame()">START</button>
             <img class="bounceIn" src="assets/car_topview.png" />
-            <h2>WELCOME</h2>
             <div>
             </div>
         </div>
@@ -19,8 +18,6 @@
             <div id="target-num"></div>
             <div id="currentCount"></div>
             <div id="gesture"></div>
-
-            <!--onmouseover="stopAnimation()" onmouseout="keepAnimation()" -->
             <div id="gameScreen">
                 <div class="path">
                 </div>
@@ -30,14 +27,10 @@
                 </div>
                 <div class="path">
                 </div>
-                <!-- <div class="border"></div> -->
                 <div path="0" id="player" class="shake" style="left: 45%">
                     <div id="currentVal"></div>
                     <div id="added"></div>
                 </div>
-            </div>
-            <div id="winScreen">
-                WIN
             </div>
             <div id="aggregatedValue"></div>
         </div>
