@@ -5,9 +5,11 @@ const pathSize = 24;
 const pathNum = 4;
 const numInPathPositionLeftRange = [36,39];
 const playerBottom = 35;
+const GAME_OVER_INTERVAL_VALUE = 30000;
 const gestures = ["Yes!", "Great", "Super", "Well Done", "WOW"];
 const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp", "rotateOut"];
 
+var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 var playerDirection = ""
 var animationAllowed = true;
 var aggregatedValue = 0;
@@ -17,6 +19,7 @@ var speedOfFallingFactor = 1;
 var gameScreenWidth;
 var playerHeightPercentage;
 var currentPath = 0;
+var gameOverTimeout;
 
 var player;
 var playerBounding;
@@ -215,6 +218,9 @@ function reset() {
     generateNewTargetNumber();
     moves = 0;
     aggregatedValue = 0;
+    clearTimeout(gameOverTimeout);
+    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
+    gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000;
     document.querySelectorAll('.fallingNumber').forEach(i => i.remove()); 
 }
 
@@ -240,4 +246,16 @@ function startGame() {
     document.getElementById("welcome").classList.add("hidden");
     gameLoopInterval = setInterval(gameLoop, 50);
     generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
+    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
+    gameOverInterval = setInterval(countDownToGameOver, 1000)
+}
+
+function gameOver() {
+    alert("game over!");
+    coins = 0;
+    reset();
+}
+
+function countDownToGameOver() {
+    document.getElementById("clock").innerHTML = --gameOverCountDown;
 }

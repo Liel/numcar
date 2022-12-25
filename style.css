@@ -158,6 +158,33 @@ div#welcome {
     text-transform: uppercase;
 }
 
+#clock {
+    position: absolute;
+    background: white;
+    bottom: 1%;
+    right: 5%;
+    font-size: 4vh;
+    border-radius: 100%;
+    padding: 2%;
+    width: 112px;
+    height: 112px;
+    display: flex;
+    align-items: center;
+    border: 16px solid;
+    font-family: 'Courier New', Courier, monospace;
+    justify-content: center;
+    font-weight: bold;
+}
+
+#clock::after {
+    background: black;
+    content: '';
+    width: 30px;
+    height: 46px;
+    position: absolute;
+    top: -49px;
+}
+
 /* #player::after {
     width: 75%;
     height: 58%;
