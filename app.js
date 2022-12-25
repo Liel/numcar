@@ -15,7 +15,7 @@ var moves = 0;
 var coins = 0;
 var speedOfFallingFactor = 1;
 var gameScreenWidth;
-
+var playerHeightPercentage;
 var currentPath = 0;
 
 var player;
@@ -27,20 +27,25 @@ function gameLoop() {
     if(!animationAllowed || !player)
         return;
     
-    const currentPlayerLeft = parseFloat(player.style.left);
+    var currentPlayerLeft = parseFloat(player.style.left);
     if(playerDirection && player) {
         const toRight = playerDirection == "right";
-        if((!toRight && currentPlayerLeft > 0) || (toRight && currentPlayerLeft < 100)) 
+        if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 100)) 
         {
-            player.style.left = toRight ? `${currentPlayerLeft + 5}%` : `${currentPlayerLeft - 5}%`;
+            const newLeftValue = toRight ? currentPlayerLeft + 5 : currentPlayerLeft - 5
+            player.style.left = `${newLeftValue}%`;
+            currentPlayerLeft = newLeftValue;
         }
     }
 
+    playerBounding = player.getBoundingClientRect();
+
     document.querySelectorAll('.fallingNumber').forEach(function(button) {
         // var itemTop = parseFloat(button.style.top.slice(0,-1)) || 0;
+        const itemBoundries = button.getBoundingClientRect()
         // itemTop = itemTop + speedOfFallingFactor + '%';
         // button.style.top = itemTop;
-        var itemTop = button.getBoundingClientRect().top / gameScreenHeight * 100; 
+        var itemTop = itemBoundries.top / gameScreenHeight * 100; 
 
         // if item overlap screen, remove it
         if(itemTop > 100) {
@@ -48,13 +53,11 @@ function gameLoop() {
             return;
         }
 
-        var itemLeft = (button.getBoundingClientRect().left * 100) / gameScreenWidth
-        playerBounding = player.getBoundingClientRect();
+        var itemLeft = (itemBoundries.left * 100) / gameScreenWidth
         // todo: check collusion also when chaning path (left attr) !!!!
         //else if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 12) 
-        if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 18)  && 
-            (itemLeft <= currentPlayerLeft + 24 && itemLeft > currentPlayerLeft)) {
-            console.log("hit!!! " + button.innerHTML)
+        if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - playerHeightPercentage)  && 
+            (itemLeft <= currentPlayerLeft + 28 && itemLeft > currentPlayerLeft - 5)) {
             moves++;
             calculateAggreatedValue(button.textContent);
             button.remove();
@@ -184,10 +187,14 @@ function startup() {
     calcAndPrintAggreatedValue(0)
     player = document.getElementById("player");
     player.style.bottom = playerBottom + "%"
+    //todo: replace 200 with dynamic game width value
+
     player.setAttribute("top", player.getBoundingClientRect().top);
     playerBounding = player.getBoundingClientRect();
     gameScreenHeight = parseInt(document.getElementById('gameScreen').getBoundingClientRect().height);
     gameScreenWidth = parseInt(document.getElementById('container').getBoundingClientRect().width);
+    playerHeightPercentage = 200/gameScreenHeight*100
+
     const gameScreenXCenter = gameScreenWidth / 2;
 
     document.onkeydown = checkKey;
