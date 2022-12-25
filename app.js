@@ -5,7 +5,7 @@ const pathSize = 24;
 const pathNum = 4;
 const numInPathPositionLeftRange = [36,39];
 const playerBottom = 35;
-const gestures = ["Amazing", "Great", "Awesome", "Well Done", "WOW"];
+const gestures = ["Yes!", "Great", "Super", "Well Done", "WOW"];
 const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp", "rotateOut"];
 
 var playerDirection = ""
@@ -37,10 +37,10 @@ function gameLoop() {
     }
 
     document.querySelectorAll('.fallingNumber').forEach(function(button) {
-        var itemTop = parseFloat(button.style.top.slice(0,-1)) || 0;
-        itemTop = itemTop + speedOfFallingFactor + '%';
-        button.style.top = itemTop;
-        itemTop = parseFloat(button.style.top.slice(0,-1));
+        // var itemTop = parseFloat(button.style.top.slice(0,-1)) || 0;
+        // itemTop = itemTop + speedOfFallingFactor + '%';
+        // button.style.top = itemTop;
+        var itemTop = button.getBoundingClientRect().top / gameScreenHeight * 100; 
 
         // if item overlap screen, remove it
         if(itemTop > 100) {
@@ -60,6 +60,8 @@ function gameLoop() {
             button.remove();
         }
     });
+
+   // clearInterval(gameLoopInterval)
 }
 
 function calculateAggreatedValue(value) {
@@ -128,7 +130,7 @@ function generateNewNumberItem() {
   document.getElementsByClassName('path')[toPath - 1].insertAdjacentHTML( 'beforeend', htmlItem );
   const movesFactor = 0;
   
-  generateItemsTimeout = setTimeout(generateNewNumberItem, randomIntFromInterval(600 - movesFactor, 1200 - movesFactor));
+  generateItemsTimeout = setTimeout(generateNewNumberItem, 1000);
 }
 
 function randomIntFromInterval(min, max) { // min and max included 
@@ -230,5 +232,5 @@ function startGame() {
     setTimeout(startup, 200)
     document.getElementById("welcome").classList.add("hidden");
     gameLoopInterval = setInterval(gameLoop, 50);
-    generateItemsTimeout = setTimeout(generateNewNumberItem, 1000);
+    generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
 }

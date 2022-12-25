@@ -1,6 +1,9 @@
 body {
     background-color: black;
     overflow:hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .disable-dbl-tap-zoom {
@@ -67,8 +70,8 @@ div#welcome {
     font-weight: 600;
     position: absolute;
     left: 38%;
-    top: 0;
-    transition-duration: 0.1s;
+    top: 0%;
+    /*transition-duration: 0.1s;*/
     background: white;
     color: black;
     width: 68px;
@@ -78,6 +81,7 @@ div#welcome {
     justify-content: space-evenly;
     border: 5px solid red;
     align-items: center;
+    animation: fallingNum 30s linear infinite;
 }
 
 .gold {
@@ -240,19 +244,33 @@ div#welcome {
     background-size: 103%;
     background-repeat-y: repeat;
     background-position-y: 27px;
-    animation: loopingRoad 0.1s infinite;
+    animation: loopingRoad 200s linear infinite;
     height: 100%;
     width: 100%;
-  }
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 
-  @keyframes loopingRoad {
-    100% {
-      background-position-y: 1000%;
+
+@keyframes loopingRoad {
+    from {
+        background-position: 0 0;
     }
-    0% {
-      background-position-y: 0%
+    to {
+        background-position: 0 100000px;
     }
-  } 
+}
+
+@keyframes fallingNum {
+    from {
+        top: 0;
+    }
+    to {
+        top: 1000%;
+    }
+}
 
   #coins {
     position: absolute;
