@@ -1,6 +1,7 @@
 <html>
     <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik+80s+Fade&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Caveat&family=Rubik+80s+Fade&display=swap" rel="stylesheet">
+        
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="animations.css" />
         <script src="app.js"></script>
@@ -14,9 +15,16 @@
             </div>
         </div>
         <div id="container" class="main">
-            <div id="coins" class="hidden"></div>
-            <div id="target-num"></div>
-            <div id="currentCount"></div>
+            <div id="header">
+                <div id="coins" class="hidden"></div>
+                <div id="counters">
+                    <div id="currentCount"></div>
+                    <span id="slash">/</span>
+                    <div id="target-num"></div>
+                    <div id="indication"></div>
+                </div>
+            </div>
+            
             <div id="gesture"></div>
             <div id="gameScreen">
                 <div class="path">

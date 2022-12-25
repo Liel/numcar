@@ -93,9 +93,9 @@ function calcAndPrintAggreatedValue(animationValue) {
 }
 
 function showAddedAnimation(value) {
-    document.getElementById("added").innerHTML = value
+    document.getElementById("indication").innerHTML = value
     setTimeout(() => {
-        document.getElementById("added").innerHTML = ""
+        document.getElementById("indication").innerHTML = ""
     }, 1000)
 
 }

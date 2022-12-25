@@ -12,7 +12,7 @@ body {
 
 div#welcome {
     position: fixed;
-    z-index: 3;
+    z-index: 6;
     width: 100%;
     height: 100%;
     background: #000000;
@@ -52,7 +52,7 @@ div#welcome {
 }
 
 #target-num {
-    display: block;
+    /* display: block;
     font-size: 3vh;
     position: absolute;
     left: 62%;
@@ -61,7 +61,7 @@ div#welcome {
     font-family: system-ui;
     border-radius: 46%;
     padding: 0 2%;
-    z-index: 2;
+    z-index: 2; */
 }
 
 .fallingNumber {
@@ -113,8 +113,27 @@ div#welcome {
     background-position-x: center;
 }
 
+#header {
+    position: fixed;
+    font-family: 'Caveat', cursive;
+    z-index: 5;
+    width: 100%;
+    background: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    height: 9%;
+    justify-content: center;
+    font-size: 4vh;
+    background-image: url(assets/bg.jpeg);
+    background-position-y: 28%;
+    box-shadow: 0 0 11px black;
+}
+
 #currentCount {
-    display: block;
+    /* display: block;
     font-size: 5vh;
     position: absolute;
     left: 42%;
@@ -126,14 +145,14 @@ div#welcome {
     z-index: 2;
     width: 14%;
     text-align: center;
-    height: 6%;
+    height: 6%; */
 }
 
 #gesture {
     position: absolute;
     font-size: 9vh;
     top: 29%;
-    left: 23%;
+    left: 20%;
     color: deeppink;
     font-family: 'Rubik 80s Fade', cursive;
     text-transform: uppercase;
@@ -280,13 +299,31 @@ div#welcome {
     display: flex;
     align-items: center;
     align-content: center;
-    background: #f1cd71;
+    text-shadow: 0 0 7px white;
     color: #cc9933;
     flex-direction: column;
     border: 7px solid #cc9933;
     border-radius: 100%;
     padding: 1%;
-    top: 1%;
+    top: 17%;
     left: 3%;
     font-family: monospace;
+    font-weight: 600;
+    background-image: url(https://e7.pngegg.com/pngimages/925/977/png-clipart-hd-gold-gold-medal-medals.png);
+    background-repeat: no-repeat;
+    background-position: 28%;
+    background-size: 178px;
+    background-position-x: 50%;
+  }
+
+  #counters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    line-height: 80%;
+  }
+
+  #indication {
+    color: #66c720;
+    flex-basis: 100%;
   }
