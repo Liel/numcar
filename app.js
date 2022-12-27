@@ -18,6 +18,7 @@ var coins = 0;
 var speedOfFallingFactor = 1;
 var gameScreenWidth;
 var playerHeightPercentage;
+var playerWidthPercentage;
 var currentPath = 0;
 var gameOverTimeout;
 
@@ -59,8 +60,9 @@ function gameLoop() {
         var itemLeft = (itemBoundries.left * 100) / gameScreenWidth
         // todo: check collusion also when chaning path (left attr) !!!!
         //else if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 12) 
-        if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - playerHeightPercentage)  && 
-            (itemLeft <= currentPlayerLeft + 28 && itemLeft > currentPlayerLeft - 5)) {
+        //if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - playerHeightPercentage)  && 
+            //(itemLeft <= currentPlayerLeft + playerWidthPercentage && itemLeft > currentPlayerLeft - 5)) {
+        if(isCollide(button, player)) {        
             moves++;
             calculateAggreatedValue(button.textContent);
             button.remove();
@@ -68,6 +70,18 @@ function gameLoop() {
     });
 
    // clearInterval(gameLoopInterval)
+}
+
+function isCollide(a, b) {
+    var aRect = a.getBoundingClientRect();
+    var bRect = b.getBoundingClientRect();
+
+    return !(
+        ((aRect.top + aRect.height) < (bRect.top)) ||
+        (aRect.top > (bRect.top + bRect.height)) ||
+        ((aRect.left + aRect.width) < bRect.left) ||
+        (aRect.left > (bRect.left + bRect.width))
+    );
 }
 
 function calculateAggreatedValue(value) {
@@ -130,7 +144,7 @@ function generateNewNumberItem() {
   const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%" 
                         operator="${isPlus ? "plus" : "minus"}" 
                         path="${toPath - 1}" 
-                        class='fallingNumber ${isGold ? "gold" : ""}'>${isPlus ? "+" : "-"}${rndInt}<div>`
+                        class='fallingNumber noselect ${isGold ? "gold" : ""}'>${isPlus ? "+" : "-"}${rndInt}<div>`
   
   // print to screen
   document.getElementsByClassName('path')[toPath - 1].insertAdjacentHTML( 'beforeend', htmlItem );
@@ -190,13 +204,14 @@ function startup() {
     calcAndPrintAggreatedValue(0)
     player = document.getElementById("player");
     player.style.bottom = playerBottom + "%"
-    //todo: replace 200 with dynamic game width value
 
-    player.setAttribute("top", player.getBoundingClientRect().top);
     playerBounding = player.getBoundingClientRect();
+    player.setAttribute("top", playerBounding.top);
     gameScreenHeight = parseInt(document.getElementById('gameScreen').getBoundingClientRect().height);
     gameScreenWidth = parseInt(document.getElementById('container').getBoundingClientRect().width);
-    playerHeightPercentage = 200/gameScreenHeight*100
+    playerHeightPercentage = playerBounding.height/gameScreenHeight*100
+    playerWidthPercentage = playerBounding.width/gameScreenWidth*100
+    coins = 0;
 
     const gameScreenXCenter = gameScreenWidth / 2;
 
@@ -251,9 +266,19 @@ function startGame() {
 }
 
 function gameOver() {
-    alert("game over!");
-    coins = 0;
-    reset();
+   // alert("game over!");
+    clearTimeout(generateItemsTimeout);
+    clearInterval(gameLoopInterval);
+    clearInterval(gameOverInterval)
+    clearTimeout(generateItemsTimeout);
+    const gameOverElement = document.getElementById("gameOver");
+    gameOverElement.classList.remove("hidden")
+}
+
+function tryAgain() {
+    const gameOverElement = document.getElementById("gameOver");
+    gameOverElement.classList.add("hidden")
+    startGame();
 }
 
 function countDownToGameOver() {

@@ -354,3 +354,34 @@ div#welcome {
     color: #66c720;
     flex-basis: 100%;
   }
+
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+  #gameOver {
+    font-size: 10vh;
+    font-family: 'Courier New', Courier, monospace;
+    position: fixed;
+    top: 14%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #gameOver button {
+    display: block;
+    width: 25%;
+    padding: 3%;
+    font-family: 'Courier New', Courier, monospace;
+    background: #f6cf02;
+    font-size: 1vh;
+    font-weight: 600;
+  }

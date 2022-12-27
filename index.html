@@ -1,18 +1,17 @@
 <html>
     <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Caveat&family=Rubik+80s+Fade&display=swap" rel="stylesheet">
-        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Rubik+80s+Fade&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="animations.css" />
         <script src="app.js"></script>
-        <title></title>
+        <title>Magicar</title>
     </head>
     <body class="disable-dbl-tap-zoom">
         <div id="welcome">
             <button id="startGame" class="shake" onclick="startGame()">START</button>
             <img class="bounceIn" src="assets/car_topview.png" />
-            <div>
-            </div>
         </div>
         <div id="container" class="main">
             <div id="header">
@@ -39,6 +38,9 @@
                     <div id="currentVal"></div>
                     <div id="added"></div>
                 </div>
+            </div>
+            <div id="gameOver" class="hidden">GAME OVER
+                <button onclick="tryAgain()">Try Again</button>
             </div>
             <div id="aggregatedValue"></div>
             <div id="clock"></div>
