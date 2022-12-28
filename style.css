@@ -318,7 +318,7 @@ div#welcome {
     }
 }
 
-  #coins {
+  .coins {
     position: absolute;
     font-size: 3vh;
     width: 70px;
@@ -334,6 +334,8 @@ div#welcome {
     padding: 1%;
     top: 17%;
     left: 3%;
+    transition-duration: 1s;
+    z-index: 6;
     font-family: monospace;
     font-weight: 600;
     background-image: url(https://e7.pngegg.com/pngimages/925/977/png-clipart-hd-gold-gold-medal-medals.png);
@@ -384,4 +386,15 @@ div#welcome {
     background: #f6cf02;
     font-size: 1vh;
     font-weight: 600;
+  }
+
+  .numberAnimation {
+    position: absolute;
+    transition-duration: 1.5s;
+    z-index: 6;
+    font-size: 3vh;
+    color: white;
+    opacity: 1;
+    color: #66c720;
+    font-family: 'Courier New', Courier, monospace;
   }

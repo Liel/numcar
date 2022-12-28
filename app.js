@@ -1,3 +1,7 @@
+HTMLElement.prototype.removeWithTimeout = function(timeoutValue) {
+    const that = this;
+    setTimeout(x => that.remove(), timeoutValue)
+}
 var gameLoopInterval;
 var generateItemsTimeout;
 
@@ -6,8 +10,8 @@ const pathNum = 4;
 const numInPathPositionLeftRange = [36,39];
 const playerBottom = 35;
 const GAME_OVER_INTERVAL_VALUE = 30000;
-const gestures = ["Yes!", "Great", "Super", "Well Done", "WOW"];
-const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp", "rotateOut"];
+const gestures = ["Yes!", "Great", "Super", "Sweet", "Well Done", "WOW"];
+const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp", "rotateOut", "zoomOut"];
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 var playerDirection = ""
@@ -56,20 +60,19 @@ function gameLoop() {
             button.remove();
             return;
         }
-
-        var itemLeft = (itemBoundries.left * 100) / gameScreenWidth
-        // todo: check collusion also when chaning path (left attr) !!!!
-        //else if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - 12) 
-        //if((itemTop <= 100 - playerBottom && itemTop >= 100 - playerBottom - playerHeightPercentage)  && 
-            //(itemLeft <= currentPlayerLeft + playerWidthPercentage && itemLeft > currentPlayerLeft - 5)) {
         if(isCollide(button, player)) {        
             moves++;
-            calculateAggreatedValue(button.textContent);
+            const isReachedTargetNum = calculateAggreatedValue(button.textContent);
             button.remove();
+
+            // animation
+            if(isReachedTargetNum) {
+                showCoinsGesture(itemBoundries);
+                return;
+            }
+            showCollidionGesture(button, itemBoundries);
         }
     });
-
-   // clearInterval(gameLoopInterval)
 }
 
 function isCollide(a, b) {
@@ -84,6 +87,43 @@ function isCollide(a, b) {
     );
 }
 
+function showCollidionGesture(button, itemBoundries) {
+    const elementAnimation = document.createElement("div")
+    elementAnimation.innerHTML = button.textContent;
+    elementAnimation.classList.add("numberAnimation")
+    elementAnimation.style.cssText = `
+        top: ${itemBoundries.top}; 
+        left: ${itemBoundries.left};
+    `;
+    document.body.append(elementAnimation)
+    setTimeout(()=>{
+        elementAnimation.style.cssText = `
+        top: 3%; 
+        left: 37%;
+        opacity: 0.6;
+        `;
+        elementAnimation.removeWithTimeout(1000)
+    }, 200)
+}
+
+function showCoinsGesture(itemBoundries) {
+    const elementAnimation = document.createElement("div")
+    elementAnimation.classList.add("coins")
+    elementAnimation.style.cssText = `
+        top: ${itemBoundries.top}; 
+        left: ${itemBoundries.left};
+    `;
+    document.body.append(elementAnimation)
+    setTimeout(()=>{
+        elementAnimation.style.cssText = `
+        top: 1%; 
+        left: 3%;
+        opacity: 1;
+        `;
+        elementAnimation.removeWithTimeout(1000)
+    }, 200)
+}
+
 function calculateAggreatedValue(value) {
     const operator = value[0];
     const numVal = parseInt(value.substring(1))
@@ -92,21 +132,22 @@ function calculateAggreatedValue(value) {
     else
         aggregatedValue -= numVal
         
-    calcAndPrintAggreatedValue(value);    
+    return calcAndPrintAggreatedValue(value);    
 }
 
 function calcAndPrintAggreatedValue(animationValue) {
+    var isReachedTheTargetNumber = false;
     if(aggregatedValue == targetNumber) {
-        // alert("Win!!!")
-        // alert("took you just " + moves + " moves")
         showGestureAnimation();
         increaseCoins();
         reset();
+        isReachedTheTargetNumber = true;
     }
 
     document.getElementById("currentCount").innerHTML = aggregatedValue
     document.getElementById("currentVal").innerHTML = aggregatedValue
-    showAddedAnimation(animationValue)
+    // showAddedAnimation(animationValue)
+    return isReachedTheTargetNumber;
 }
 
 function showAddedAnimation(value) {
@@ -119,7 +160,7 @@ function showAddedAnimation(value) {
 
 function increaseCoins() {
     coins++;
-    const coinsElement = document.getElementById("coins")
+    const coinsElement = document.getElementById("cointCounter")
     coinsElement.innerHTML = coins;
 
     if(coinsElement.classList.contains("hidden"))
@@ -148,8 +189,6 @@ function generateNewNumberItem() {
   
   // print to screen
   document.getElementsByClassName('path')[toPath - 1].insertAdjacentHTML( 'beforeend', htmlItem );
-  const movesFactor = 0;
-  
   generateItemsTimeout = setTimeout(generateNewNumberItem, 1000);
 }
 
