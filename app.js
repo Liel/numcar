@@ -1,3 +1,4 @@
+const gestureManagerInstance = new gestureManager()
 HTMLElement.prototype.removeWithTimeout = function(timeoutValue) {
     const that = this;
     setTimeout(x => that.remove(), timeoutValue)
@@ -10,8 +11,6 @@ const pathNum = 4;
 const numInPathPositionLeftRange = [36,39];
 const playerBottom = 35;
 const GAME_OVER_INTERVAL_VALUE = 30000;
-const gestures = ["Yes!", "Great", "Super", "Sweet", "Well Done", "WOW"];
-const gesturesClasses = ["zoomIn", "zoomOutLeft", "zoomOutUp", "rotateOut", "zoomOut"];
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 var playerDirection = ""
@@ -67,10 +66,10 @@ function gameLoop() {
 
             // animation
             if(isReachedTargetNum) {
-                showCoinsGesture(itemBoundries);
+                gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
-            showCollidionGesture(button, itemBoundries);
+            gestureManagerInstance.showCollidionGesture(button, itemBoundries.top, itemBoundries.left)
         }
     });
 }
@@ -87,43 +86,6 @@ function isCollide(a, b) {
     );
 }
 
-function showCollidionGesture(button, itemBoundries) {
-    const elementAnimation = document.createElement("div")
-    elementAnimation.innerHTML = button.textContent;
-    elementAnimation.classList.add("numberAnimation")
-    elementAnimation.style.cssText = `
-        top: ${itemBoundries.top}; 
-        left: ${itemBoundries.left};
-    `;
-    document.body.append(elementAnimation)
-    setTimeout(()=>{
-        elementAnimation.style.cssText = `
-        top: 3%; 
-        left: 37%;
-        opacity: 0.6;
-        `;
-        elementAnimation.removeWithTimeout(1000)
-    }, 200)
-}
-
-function showCoinsGesture(itemBoundries) {
-    const elementAnimation = document.createElement("div")
-    elementAnimation.classList.add("coins")
-    elementAnimation.style.cssText = `
-        top: ${itemBoundries.top}; 
-        left: ${itemBoundries.left};
-    `;
-    document.body.append(elementAnimation)
-    setTimeout(()=>{
-        elementAnimation.style.cssText = `
-        top: 1%; 
-        left: 3%;
-        opacity: 1;
-        `;
-        elementAnimation.removeWithTimeout(1000)
-    }, 200)
-}
-
 function calculateAggreatedValue(value) {
     const operator = value[0];
     const numVal = parseInt(value.substring(1))
@@ -138,7 +100,7 @@ function calculateAggreatedValue(value) {
 function calcAndPrintAggreatedValue(animationValue) {
     var isReachedTheTargetNumber = false;
     if(aggregatedValue == targetNumber) {
-        showGestureAnimation();
+        gestureManagerInstance.showGestureAnimation();
         increaseCoins();
         reset();
         isReachedTheTargetNumber = true;
@@ -282,17 +244,6 @@ function stop() {
     animationAllowed = false
     clearInterval(gameLoopInterval);
     clearInterval(generateItemsInterval)
-}
-
-function showGestureAnimation() {
-    const gestureElement = document.getElementById("gesture")
-    gestureElement.innerHTML = gestures[randomIntFromInterval(0, gestures.length - 1)];
-    const animationClass = gesturesClasses[randomIntFromInterval(0, gesturesClasses.length)]
-    gestureElement.classList.add(animationClass)
-    setTimeout(() => { 
-        gestureElement.innerHTML = "";
-        gestureElement.classList.remove(animationClass)
-     }, 1200)
 }
 
 function startGame() {
