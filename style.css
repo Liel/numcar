@@ -88,6 +88,21 @@ div#welcome {
     background-color: #fff000;
 }
 
+.obstacle {
+  background-color: red;
+  box-shadow: 0 0 7px red;
+}
+
+.obstacle::after {
+  position: absolute;
+  width: 54px;
+  height: 17px;
+  background-color: white;
+  top: 39%;
+  left: 9%;
+  content: '';
+}
+
 .path {
     flex-basis: 32%;
     position: relative;
@@ -398,3 +413,10 @@ div#welcome {
     color: #66c720;
     font-family: 'Courier New', Courier, monospace;
   }
+
+  .paused{
+    -webkit-animation-play-state:paused;
+    -moz-animation-play-state:paused;
+    -o-animation-play-state:paused; 
+    animation-play-state:paused;
+}

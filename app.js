@@ -1,8 +1,6 @@
 const gestureManagerInstance = new gestureManager()
-HTMLElement.prototype.removeWithTimeout = function(timeoutValue) {
-    const that = this;
-    setTimeout(x => that.remove(), timeoutValue)
-}
+var dynamicItemsManagerInstance;
+
 var gameLoopInterval;
 var generateItemsTimeout;
 
@@ -47,29 +45,31 @@ function gameLoop() {
 
     playerBounding = player.getBoundingClientRect();
 
-    document.querySelectorAll('.fallingNumber').forEach(function(button) {
-        // var itemTop = parseFloat(button.style.top.slice(0,-1)) || 0;
-        const itemBoundries = button.getBoundingClientRect()
-        // itemTop = itemTop + speedOfFallingFactor + '%';
-        // button.style.top = itemTop;
+    dynamicItemsManagerInstance.getAllItems().forEach(function(currentDynamicItem) {
+
+        const itemBoundries = currentDynamicItem.htmlElement.getBoundingClientRect()
         var itemTop = itemBoundries.top / gameScreenHeight * 100; 
 
         // if item overlap screen, remove it
         if(itemTop > 100) {
-            button.remove();
+            dynamicItemsManagerInstance.removeItemById(currentDynamicItem)
             return;
         }
-        if(isCollide(button, player)) {        
+        if(isCollide(currentDynamicItem.htmlElement, player)) {        
             moves++;
-            const isReachedTargetNum = calculateAggreatedValue(button.textContent);
-            button.remove();
+            if(currentDynamicItem && currentDynamicItem.type == "OBSTACLE") {
+                return;
+            }
+
+            const isReachedTargetNum = calculateAggreatedValue(currentDynamicItem);
+            dynamicItemsManagerInstance.removeItemById(currentDynamicItem)
 
             // animation
             if(isReachedTargetNum) {
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
-            gestureManagerInstance.showCollidionGesture(button, itemBoundries.top, itemBoundries.left)
+            gestureManagerInstance.showCollidionGesture(currentDynamicItem.htmlElement, itemBoundries.top, itemBoundries.left)
         }
     });
 }
@@ -86,15 +86,16 @@ function isCollide(a, b) {
     );
 }
 
-function calculateAggreatedValue(value) {
-    const operator = value[0];
-    const numVal = parseInt(value.substring(1))
-    if(operator === "+")
-        aggregatedValue += numVal
+function calculateAggreatedValue(item) {
+    const operator = item.operator,
+          numericValue = item.numericValue;
+
+    if(operator === "plus")
+        aggregatedValue += numericValue
     else
-        aggregatedValue -= numVal
+        aggregatedValue -= numericValue
         
-    return calcAndPrintAggreatedValue(value);    
+    return calcAndPrintAggreatedValue();    
 }
 
 function calcAndPrintAggreatedValue(animationValue) {
@@ -127,35 +128,6 @@ function increaseCoins() {
 
     if(coinsElement.classList.contains("hidden"))
         coinsElement.classList.remove("hidden")
-}
-
-function generateNewNumberItem() {
-    if(!animationAllowed)
-        return;
-
-  const toPath = randomIntFromInterval(1, pathNum)
-  var rndInt = randomIntFromInterval(1, 10)
-  var isPlus = randomIntFromInterval(1, 2) == 1
-  var isGold = false;
-  if(moves > 0 && moves % 3 === 0) {
-    rndInt = targetNumber - aggregatedValue
-    isPlus = rndInt > 0
-    rndInt = Math.abs(rndInt)
-    isGold = true;
-    moves++;
-  }
-  const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%" 
-                        operator="${isPlus ? "plus" : "minus"}" 
-                        path="${toPath - 1}" 
-                        class='fallingNumber noselect ${isGold ? "gold" : ""}'>${isPlus ? "+" : "-"}${rndInt}<div>`
-  
-  // print to screen
-  document.getElementsByClassName('path')[toPath - 1].insertAdjacentHTML( 'beforeend', htmlItem );
-  generateItemsTimeout = setTimeout(generateNewNumberItem, 1000);
-}
-
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 function stopAnimation() {
@@ -237,7 +209,7 @@ function reset() {
     clearTimeout(gameOverTimeout);
     gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000;
-    document.querySelectorAll('.fallingNumber').forEach(i => i.remove()); 
+    dynamicItemsManagerInstance.removeAll();
 }
 
 function stop() {
@@ -250,17 +222,17 @@ function startGame() {
     setTimeout(startup, 200)
     document.getElementById("welcome").classList.add("hidden");
     gameLoopInterval = setInterval(gameLoop, 50);
-    generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
-    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
-    gameOverInterval = setInterval(countDownToGameOver, 1000)
+    //generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
+    dynamicItemsManagerInstance = new dynamicItemsManager(pathNum, numInPathPositionLeftRange)
+    dynamicItemsManagerInstance.initTimeout();
+   // gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
+   // gameOverInterval = setInterval(countDownToGameOver, 1000)
 }
 
 function gameOver() {
-   // alert("game over!");
-    clearTimeout(generateItemsTimeout);
+    dynamicItemsManagerInstance.stopTimeout();
     clearInterval(gameLoopInterval);
     clearInterval(gameOverInterval)
-    clearTimeout(generateItemsTimeout);
     const gameOverElement = document.getElementById("gameOver");
     gameOverElement.classList.remove("hidden")
 }
