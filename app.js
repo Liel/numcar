@@ -5,16 +5,15 @@ var progressBarInstance = new ProgressBarManager();
 var gameLoopInterval;
 var generateItemsTimeout;
 
-const pathSize = 24;
 const pathNum = 4;
-const numInPathPositionLeftRange = [36,39];
-const playerBottom = 35;
-const GAME_OVER_INTERVAL_VALUE = 30000;
+const numInPathPositionLeftRange = [11,25];
+const playerBottom = 22;
+const GAME_OVER_INTERVAL_VALUE = 31000;
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 var playerDirection = ""
 var animationAllowed = true;
-var aggregatedValue = 0;
+var aggregatedValue = 50;
 var moves = 0;
 var coins = 0;
 var speedOfFallingFactor = 1;
@@ -36,9 +35,9 @@ function gameLoop() {
     var currentPlayerLeft = parseFloat(player.style.left);
     if(playerDirection && player) {
         const toRight = playerDirection == "right";
-        if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 100)) 
+        if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 84)) 
         {
-            const newLeftValue = toRight ? currentPlayerLeft + 5 : currentPlayerLeft - 5
+            const newLeftValue = toRight ? currentPlayerLeft + 7 : currentPlayerLeft - 7
             player.style.left = `${newLeftValue}%`;
             currentPlayerLeft = newLeftValue;
         }
@@ -146,6 +145,8 @@ function keepAnimation() {
 
 function generateNewTargetNumber() {
     targetNumber = randomIntFromInterval(10, 14);
+    targetNumber = 0;
+    aggregatedValue = 50;
     document.getElementById('target-num').innerHTML = targetNumber;
 }
 
@@ -212,7 +213,7 @@ function startup() {
 function reset() {
     generateNewTargetNumber();
     moves = 0;
-    aggregatedValue = 0;
+    aggregatedValue = 50;
     clearTimeout(gameOverTimeout);
     gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000;
@@ -233,8 +234,8 @@ function startGame() {
     //generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
     dynamicItemsManagerInstance = new dynamicItemsManager(pathNum, numInPathPositionLeftRange)
     dynamicItemsManagerInstance.initTimeout();
-   // gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
-   // gameOverInterval = setInterval(countDownToGameOver, 1000)
+    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
+    gameOverInterval = setInterval(countDownToGameOver, 1000)
 }
 
 function gameOver() {
@@ -252,5 +253,13 @@ function tryAgain() {
 }
 
 function countDownToGameOver() {
-    document.getElementById("clock").innerHTML = --gameOverCountDown;
+    document.getElementById("clock").innerHTML = adjustGameOverCounterText(--gameOverCountDown);
+}
+
+function adjustGameOverCounterText(countValue) {
+    var text = "00:"
+    if(countValue >= 10)
+        return text + countValue
+    
+    return text + "0" + countValue;
 }

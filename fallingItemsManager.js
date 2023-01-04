@@ -64,7 +64,7 @@ class dynamicItemsManager {
     }
 
     prepateRegularNum(item) {
-        const isPlus = true // randomIntFromInterval(1, 2) == 1
+        const isPlus = false // randomIntFromInterval(1, 2) == 1
         item.operator = isPlus ? "plus" : "minus";
         item.numericValue = randomIntFromInterval(1, 10)
         item.displayValue = `${isPlus ? "+" : "-"}${item.numericValue}`

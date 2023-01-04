@@ -31,7 +31,7 @@ class ProgressBarManager {
                 bar.setText(``);
               } else {
                 const whatLeft = this.targetNumber - this.currentValue
-                bar.setText(this.generateMessage(whatLeft));
+                bar.setText(this.currentValue + "<br /><div id='counter-label'>to make it ZERO!</div>");
               }
           
               bar.text.style.color = state.color;
@@ -39,6 +39,8 @@ class ProgressBarManager {
           });
           this.bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
           this.bar.text.style.fontSize = '2rem';
+
+          this.updateProgress(50)
     }
 
     generateMessage(leftValue) {
@@ -55,12 +57,12 @@ class ProgressBarManager {
             return;
         
         this.currentValue = value;
-        this.bar.animate(value / this.targetNumber);
+        this.bar.animate(value / 50);
     }
 
     reset(targetNumber) {
         this.bar.animate(0);
         this.currentValue = 0;
-        this.targetNumber = targetNumber;    
+        this.targetNumber = 50;    
     }
 }
