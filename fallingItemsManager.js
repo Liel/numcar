@@ -31,12 +31,12 @@ class dynamicItemsManager {
         if (d < 0.5)
             // 50% chance of being here
             return "REGULAR_NUM"
-        else if (d < 0.7)
-            // 20% chance of being here
+        else if (d < 0.8)
             return "OBSTACLE"
-        else
-            // 30% chance of being here
+        else {
+            console.log(d)
             return "GOLD"
+        }
     }
 
     generateNewNumberItem() {
@@ -60,14 +60,18 @@ class dynamicItemsManager {
       // print to screen
       document.getElementsByClassName('path')[newDynamicItem.path - 1].insertAdjacentHTML( 'beforeend', htmlItem );
       this.currentDynamicItems[newDynamicItem.id].htmlElement = document.getElementById(newDynamicItem.id);
-      this.generateItemsTimeout = setTimeout(this.generateNewNumberItem.bind(this), 1000);
+      this.generateItemsTimeout = setTimeout(this.generateNewNumberItem.bind(this), 800);
     }
 
     prepateRegularNum(item) {
-        const isPlus = randomIntFromInterval(1, 2) == 1
+        const isPlus = true // randomIntFromInterval(1, 2) == 1
         item.operator = isPlus ? "plus" : "minus";
         item.numericValue = randomIntFromInterval(1, 10)
         item.displayValue = `${isPlus ? "+" : "-"}${item.numericValue}`
+    }
+
+    isPlus() {
+        
     }
 
     prepareGoldNum(item) {

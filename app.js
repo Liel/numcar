@@ -1,5 +1,6 @@
 const gestureManagerInstance = new gestureManager()
 var dynamicItemsManagerInstance;
+var progressBarInstance = new ProgressBarManager();
 
 var gameLoopInterval;
 var generateItemsTimeout;
@@ -107,10 +108,15 @@ function calcAndPrintAggreatedValue(animationValue) {
         isReachedTheTargetNumber = true;
     }
 
-    document.getElementById("currentCount").innerHTML = aggregatedValue
-    document.getElementById("currentVal").innerHTML = aggregatedValue
+    // updateIndicationLabels(aggregatedValue)
+    progressBarInstance.updateProgress(aggregatedValue)
     // showAddedAnimation(animationValue)
     return isReachedTheTargetNumber;
+}
+
+function updateIndicationLabels(aggregatedValue) {
+    document.getElementById("currentCount").innerHTML = aggregatedValue
+    document.getElementById("currentVal").innerHTML = aggregatedValue
 }
 
 function showAddedAnimation(value) {
@@ -185,6 +191,7 @@ function startup() {
     playerHeightPercentage = playerBounding.height/gameScreenHeight*100
     playerWidthPercentage = playerBounding.width/gameScreenWidth*100
     coins = 0;
+    progressBarInstance.init(targetNumber);
 
     const gameScreenXCenter = gameScreenWidth / 2;
 
@@ -210,6 +217,7 @@ function reset() {
     gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000;
     dynamicItemsManagerInstance.removeAll();
+    progressBarInstance.reset(targetNumber)
 }
 
 function stop() {
