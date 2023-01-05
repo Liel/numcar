@@ -15,10 +15,14 @@ class gestureManager {
          }, 1200)
     }
 
-    showCollidionGesture(collidedElement, top, left) {
+    showCollidionGesture(collidedElement, top, left, customText = null, customClass = null) {
         const elementAnimation = document.createElement("div")
-        elementAnimation.innerHTML = collidedElement.textContent;
+        elementAnimation.innerHTML = customText || collidedElement.textContent;
         elementAnimation.classList.add(this.COLLIDION_ANIMATION_CLASS_NAME)
+        
+        if(customClass)
+            elementAnimation.classList.add(customClass)
+
         elementAnimation.style.cssText = `
             top: ${top}; 
             left: ${left};

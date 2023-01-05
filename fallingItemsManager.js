@@ -31,10 +31,9 @@ class dynamicItemsManager {
         if (d < 0.5)
             // 50% chance of being here
             return "REGULAR_NUM"
-        else if (d < 0.8)
+        else if (d < 0.9)
             return "OBSTACLE"
         else {
-            console.log(d)
             return "GOLD"
         }
     }
@@ -70,10 +69,6 @@ class dynamicItemsManager {
         item.displayValue = `${isPlus ? "+" : "-"}${item.numericValue}`
     }
 
-    isPlus() {
-        
-    }
-
     prepareGoldNum(item) {
         item.numericValue = targetNumber - aggregatedValue
         const isPlus = item.numericValue > 0
@@ -86,7 +81,8 @@ class dynamicItemsManager {
     }
 
     prepateObstacle(item) {
-        item.numericValue = 0
+        item.numericValue = 5
+        item.operator = "plus"
         item.displayValue = ``
         // TODO: emit event
         //moves++;

@@ -61,9 +61,9 @@ function gameLoop() {
         }
         if(isCollide(currentDynamicItem.htmlElement, player)) {        
             moves++;
-            if(currentDynamicItem && currentDynamicItem.type == "OBSTACLE") {
-                return;
-            }
+            // if(currentDynamicItem.type == "OBSTACLE") {
+            //     return;
+            // }
 
             const isReachedTargetNum = calculateAggreatedValue(currentDynamicItem);
             dynamicItemsManagerInstance.removeItemById(currentDynamicItem)
@@ -73,7 +73,14 @@ function gameLoop() {
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
-            gestureManagerInstance.showCollidionGesture(currentDynamicItem.htmlElement, itemBoundries.top, itemBoundries.left)
+            const gestureText = currentDynamicItem.type == "OBSTACLE" ? `+${currentDynamicItem.numericValue}` : null,
+                  gestureCustomClass = currentDynamicItem.type == "OBSTACLE" ? `red-text` : null
+
+            gestureManagerInstance.showCollidionGesture(currentDynamicItem.htmlElement, 
+                    itemBoundries.top, 
+                    itemBoundries.left, 
+                    gestureText, 
+                    gestureCustomClass)
         }
     });
 }

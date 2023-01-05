@@ -93,7 +93,7 @@ div#welcome {
 
 .obstacle::after {
   position: absolute;
-  width: 84px;
+  width: 74px;
   height: 17px;
   background-color: white;
   top: 39%;
@@ -425,4 +425,8 @@ div#welcome {
 
 #counter-label {
   font-size: 2vh;
+}
+
+.red-text {
+  color:red !important;
 }
