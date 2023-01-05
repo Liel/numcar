@@ -19,7 +19,7 @@ class gestureManager {
         const elementAnimation = document.createElement("div")
         elementAnimation.innerHTML = customText || collidedElement.textContent;
         elementAnimation.classList.add(this.COLLIDION_ANIMATION_CLASS_NAME)
-        
+
         if(customClass)
             elementAnimation.classList.add(customClass)
 
@@ -33,6 +33,29 @@ class gestureManager {
             top: 3%; 
             left: 37%;
             opacity: 0.6;
+            `;
+            elementAnimation.removeWithTimeout(1000)
+        }, 200)
+    }
+
+    showObtacleCollidionGesture(collidedElement, top, left, customText = null, customClass = null) {
+        const elementAnimation = document.createElement("div")
+        elementAnimation.innerHTML = customText || collidedElement.textContent;
+        elementAnimation.classList.add(this.COLLIDION_ANIMATION_CLASS_NAME, "red-text")
+        
+        if(customClass)
+            elementAnimation.classList.add(customClass)
+
+        elementAnimation.style.cssText = `
+            top: ${top}; 
+            left: ${left};
+        `;
+        document.body.append(elementAnimation)
+        setTimeout(()=>{
+            elementAnimation.style.cssText = `
+                top: 140%; 
+                left: 50%;
+                opacity: 0.6;
             `;
             elementAnimation.removeWithTimeout(1000)
         }, 200)

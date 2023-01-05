@@ -38,15 +38,15 @@ function gameLoop() {
         return;
     
     var currentPlayerLeft = parseFloat(player.style.left);
-    if(playerDirection && player) {
-        const toRight = playerDirection == "right";
-        if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 84)) 
-        {
-            const newLeftValue = toRight ? currentPlayerLeft + 7 : currentPlayerLeft - 7
-            player.style.left = `${newLeftValue}%`;
-            currentPlayerLeft = newLeftValue;
-        }
-    }
+    // if(playerDirection && player) {
+    //     const toRight = playerDirection == "right";
+    //     if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 84)) 
+    //     {
+    //         const newLeftValue = toRight ? currentPlayerLeft + 4 : currentPlayerLeft - 4
+    //         player.style.left = `${newLeftValue}%`;
+    //         currentPlayerLeft = newLeftValue;
+    //     }
+    // }
 
     playerBounding = player.getBoundingClientRect();
 
@@ -71,14 +71,18 @@ function gameLoop() {
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
-            const gestureText = currentDynamicItem.type == "OBSTACLE" ? `+${currentDynamicItem.numericValue}` : null,
-                  gestureCustomClass = currentDynamicItem.type == "OBSTACLE" ? `red-text` : null
+            
+            if(currentDynamicItem.type == "OBSTACLE") {
+                gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
+                    itemBoundries.top, 
+                    itemBoundries.left, 
+                    `+${currentDynamicItem.numericValue}`)
+                return;
+            }
 
             gestureManagerInstance.showCollidionGesture(currentDynamicItem.htmlElement, 
                     itemBoundries.top, 
-                    itemBoundries.left, 
-                    gestureText, 
-                    gestureCustomClass)
+                    itemBoundries.left)
         }
     });
 }
@@ -169,7 +173,10 @@ function checkKey(e) {
         }
         else {
            // changeRoadSpeed(initialRoadSecondsDuration)
-            movePlayer("left");
+           
+           player.classList.remove("player-to-right")
+           player.classList.add("player-to-left")
+           movePlayer("left");
         }
        // left arrow
     }
@@ -178,7 +185,10 @@ function checkKey(e) {
           //  changeRoadSpeed(72)
         }
         else {
-            changeRoadSpeed(initialRoadSecondsDuration)
+            //changeRoadSpeed(initialRoadSecondsDuration)
+
+            player.classList.remove("player-to-left")
+            player.classList.add("player-to-right")
             movePlayer("right");
         }
        // right arrow
