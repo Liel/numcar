@@ -26,6 +26,22 @@ class dynamicItemsManager {
         clearTimeout(this.generateItemsTimeout);
     }
 
+    randomizePath() {
+        var d = Math.random();
+        if (d < 0.5)
+            // 50% chance of being here
+            return 1
+
+         return 2    
+        // else if (d < 0.8)
+        //     return 2
+        // else if (d < 0.9)
+        //     return 3
+        // else {
+        //     return 4
+        // }
+    }
+
     randomizeItemType() {
         var d = Math.random();
         if (d < 0.5)
@@ -38,27 +54,48 @@ class dynamicItemsManager {
         }
     }
 
+    createDynamicItems() {
+        var items = []
+        for (let path = 1; path <= this.pathsCount; path++) {
+            const item = {
+                path,
+                type: this.currentInstance.randomizeItemType(),
+                id: uuidv4()
+            }
+
+            this.prepareItemByType[item.type](item);
+            
+            items.push(item)
+        }
+
+        return items;
+    }
+
     generateNewNumberItem() {
         if(!animationAllowed)
             return;
     
-      const newDynamicItem = {
-        path: randomIntFromInterval(1, this.pathsCount),
-        type: this.currentInstance.randomizeItemType(),
-        id: uuidv4()
-      }
-      
-      this.prepareItemByType[newDynamicItem.type](newDynamicItem);
-      this.currentDynamicItems[newDynamicItem.id] = newDynamicItem;
+        const newItemsPerPath = shuffle(this.createDynamicItems());
+        const numOfItemsToPrint = this.randomizePath() - 1;
+        for (let itemIdx = 0; itemIdx < newItemsPerPath.length; itemIdx++) {
+            if(itemIdx > numOfItemsToPrint) {
+                delete newItemsPerPath[itemIdx];
+                continue;
+            }
+            const newDynamicItem = newItemsPerPath[itemIdx]
+            const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%"
+                                    item-id="${newDynamicItem.id}" 
+                                    id="${newDynamicItem.id}"
+                                    class='fallingNumber noselect ${newDynamicItem.class}'>${newDynamicItem.displayValue}<div>`
 
-      const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%"
-                            item-id="${newDynamicItem.id}" 
-                            id="${newDynamicItem.id}"
-                            class='fallingNumber noselect ${newDynamicItem.class}'>${newDynamicItem.displayValue}<div>`
+            // print to screen
+            document.getElementsByClassName('path')[newDynamicItem.path - 1].insertAdjacentHTML( 'beforeend', htmlItem );
+
+            // Save in local cache
+            newDynamicItem.htmlElement = document.getElementById(newDynamicItem.id);
+            this.currentDynamicItems[newDynamicItem.id] = newDynamicItem;
+        }
       
-      // print to screen
-      document.getElementsByClassName('path')[newDynamicItem.path - 1].insertAdjacentHTML( 'beforeend', htmlItem );
-      this.currentDynamicItems[newDynamicItem.id].htmlElement = document.getElementById(newDynamicItem.id);
       this.generateItemsTimeout = setTimeout(this.generateNewNumberItem.bind(this), 800);
     }
 

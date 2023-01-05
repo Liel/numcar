@@ -13,6 +13,7 @@ const pathNum = 4;
 const numInPathPositionLeftRange = [11,25];
 const playerBottom = 22;
 const GAME_OVER_INTERVAL_VALUE = 31000;
+const initialRoadSecondsDuration = 130;
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 var playerDirection = ""
@@ -61,9 +62,6 @@ function gameLoop() {
         }
         if(isCollide(currentDynamicItem.htmlElement, player)) {        
             moves++;
-            // if(currentDynamicItem.type == "OBSTACLE") {
-            //     return;
-            // }
 
             const isReachedTargetNum = calculateAggreatedValue(currentDynamicItem);
             dynamicItemsManagerInstance.removeItemById(currentDynamicItem)
@@ -165,21 +163,27 @@ function generateNewTargetNumber() {
 function checkKey(e) {
 
     e = e || window.event;
-
-    if (e.keyCode == '38') {
-        // up arrow
-    }
-    else if (e.keyCode == '40') {
-        // down arrow
-    }
-    else if (e.keyCode == '37') {
-        movePlayer("left");
+    if (e.keyCode == '37') {
+        if(playerDirection == "left") {
+            //changeRoadSpeed(72)
+        }
+        else {
+           // changeRoadSpeed(initialRoadSecondsDuration)
+            movePlayer("left");
+        }
        // left arrow
     }
     else if (e.keyCode == '39') {
-        movePlayer("right");
+        if(playerDirection == "right") { 
+          //  changeRoadSpeed(72)
+        }
+        else {
+            changeRoadSpeed(initialRoadSecondsDuration)
+            movePlayer("right");
+        }
        // right arrow
     }
+    
 
 }
 
@@ -278,4 +282,8 @@ function adjustGameOverCounterText(countValue) {
         return text + countValue
     
     return text + "0" + countValue;
+}
+
+function changeRoadSpeed(newSpeedNumeric) {
+    document.getElementById("container").style["-webkit-animation-duration"] = newSpeedNumeric + "s";
 }
