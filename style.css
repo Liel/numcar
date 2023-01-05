@@ -40,7 +40,7 @@ div#welcome {
 }
 
 #gameScreen {
-    width: 73%;
+    width: 67%;
     height: 98%;
     margin: auto;
     border-radius: 4px;
@@ -64,14 +64,14 @@ div#welcome {
 }
 
 .fallingNumber {
-  font-size: 30pt;
+  font-size: 25pt;
   color: white;
   font-weight: 600;
   position: absolute;
   left: 38%;
   top: 0%;
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 82px;
   display: flex;
   justify-content: space-evenly;
@@ -108,8 +108,8 @@ div#welcome {
 }
 
 #player {
-  width: 30%;
-  height: 275px;
+  width: 26%;
+  height: 242px;
     position: absolute;
     bottom: 3%;
     left: 14%;
@@ -288,7 +288,7 @@ div#welcome {
   .main {
     background-image: url(https://opengameart.org/sites/default/files/background-1_0.png);
     background-repeat-x: no-repeat;
-    background-size: 120%;
+    background-size: 110%;
     background-repeat-y: repeat;
     background-position-y: 27px;
     background-position-x: 50%;

@@ -1,3 +1,7 @@
+// TODO: change "50" to be not hardcoded and think about
+// how to implement it better in terms of now the game is
+// from number X to 0, so the target num will always be 0
+// but maybe we should have instead a var for "startingFrom" which is 50
 const gestureManagerInstance = new gestureManager()
 var dynamicItemsManagerInstance;
 var progressBarInstance = new ProgressBarManager();
@@ -234,7 +238,7 @@ function startGame() {
     //generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
     dynamicItemsManagerInstance = new dynamicItemsManager(pathNum, numInPathPositionLeftRange)
     dynamicItemsManagerInstance.initTimeout();
-    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
+    //gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverInterval = setInterval(countDownToGameOver, 1000)
 }
 
@@ -253,7 +257,12 @@ function tryAgain() {
 }
 
 function countDownToGameOver() {
-    document.getElementById("clock").innerHTML = adjustGameOverCounterText(--gameOverCountDown);
+    const clockElement = document.getElementById("clock");
+    clockElement.innerHTML = adjustGameOverCounterText(--gameOverCountDown);
+    if(gameOverCountDown === 0) {
+        gameOver()
+        clockElement.classList.add("blink")
+    }
 }
 
 function adjustGameOverCounterText(countValue) {
