@@ -128,7 +128,6 @@ function calcAndPrintAggreatedValue(animationValue) {
 
 function updateIndicationLabels(aggregatedValue) {
     document.getElementById("currentCount").innerHTML = aggregatedValue
-    document.getElementById("currentVal").innerHTML = aggregatedValue
 }
 
 function showAddedAnimation(value) {
@@ -261,6 +260,7 @@ function startGame() {
     dynamicItemsManagerInstance.initTimeout();
     //gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverInterval = setInterval(countDownToGameOver, 1000)
+    gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 }
 
 function gameOver() {

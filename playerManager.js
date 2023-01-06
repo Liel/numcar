@@ -5,6 +5,10 @@ class Player {
     playerBounding;
     normalSpeed = 4;
     direction;
+    directionClasses = {
+        left: "player-to-left",
+        right: "player-to-right"
+    }
 
     init() {
         this.player = document.getElementById("player");
@@ -30,9 +34,14 @@ class Player {
         }
 
         this.direction = direction
+        this.player.classList.add(this.directionClasses[direction])
+        // todo: remove the other class, and make sure app.js sending valid value for this method
     }
 
     increaseSpeed() {
         this.currentSpeed = this.normalSpeed + 3
+
+        // todo: just change tranistion-duration
+        // document.getElementById("player").style["-webkit-animation-duration"] = newSpeedNumeric + "s";
     }
 }
