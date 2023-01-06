@@ -40,7 +40,7 @@ div#welcome {
 }
 
 #gameScreen {
-    width: 73%;
+    width: 67%;
     height: 98%;
     margin: auto;
     border-radius: 4px;
@@ -64,14 +64,14 @@ div#welcome {
 }
 
 .fallingNumber {
-  font-size: 30pt;
+  font-size: 25pt;
   color: white;
   font-weight: 600;
   position: absolute;
   left: 38%;
   top: 0%;
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 82px;
   display: flex;
   justify-content: space-evenly;
@@ -93,7 +93,7 @@ div#welcome {
 
 .obstacle::after {
   position: absolute;
-  width: 84px;
+  width: 74px;
   height: 17px;
   background-color: white;
   top: 39%;
@@ -108,22 +108,22 @@ div#welcome {
 }
 
 #player {
-  width: 30%;
-  height: 275px;
-    position: absolute;
-    bottom: 3%;
-    left: 14%;
-    border-radius: 16px;
-    z-index: 1;
-    transition-duration: 0.1s;
-    text-align: center;
-    line-height: 4;
-    font-size: 11pt;
-    background-size: 125%;
-    color: white;
-    background-image: url(assets/car_topview.png);
-    background-repeat: no-repeat;
-    background-position-x: center;
+  width: 26%;
+  height: 242px;
+  position: absolute;
+  bottom: 3%;
+  left: 15%;
+  border-radius: 16px;
+  z-index: 1;
+  transition-duration: 0.1s;
+  text-align: center;
+  line-height: 4;
+  font-size: 11pt;
+  background-size: 125%;
+  color: white;
+  background-image: url(assets/car_topview.png);
+  background-repeat: no-repeat;
+  background-position-x: center;
 }
 
 #header {
@@ -144,22 +144,6 @@ div#welcome {
     background-position-y: 22%;
     background-position-x: 225%;
     box-shadow: 0 0 11px black;
-}
-
-#currentCount {
-    /* display: block;
-    font-size: 5vh;
-    position: absolute;
-    left: 42%;
-    color: aquamarine;
-    background: violet;
-    font-family: system-ui;
-    border-radius: 46%;
-    padding: 0 2%;
-    z-index: 2;
-    width: 14%;
-    text-align: center;
-    height: 6%; */
 }
 
 #gesture {
@@ -288,7 +272,7 @@ div#welcome {
   .main {
     background-image: url(https://opengameart.org/sites/default/files/background-1_0.png);
     background-repeat-x: no-repeat;
-    background-size: 120%;
+    background-size: 110%;
     background-repeat-y: repeat;
     background-position-y: 27px;
     background-position-x: 50%;
@@ -425,4 +409,18 @@ div#welcome {
 
 #counter-label {
   font-size: 2vh;
+}
+
+.red-text {
+  color:red !important;
+}
+
+.player-to-left {
+  transition-duration: 2s !important;
+  left: -20% !important;
+}
+
+.player-to-right {
+  transition-duration: 2s !important;
+  left: 84% !important;
 }

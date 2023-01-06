@@ -1,3 +1,7 @@
+// TODO: change "50" to be not hardcoded and think about
+// how to implement it better in terms of now the game is
+// from number X to 0, so the target num will always be 0
+// but maybe we should have instead a var for "startingFrom" which is 50
 const gestureManagerInstance = new gestureManager()
 var dynamicItemsManagerInstance;
 var progressBarInstance = new ProgressBarManager();
@@ -9,6 +13,7 @@ const pathNum = 4;
 const numInPathPositionLeftRange = [11,25];
 const playerBottom = 22;
 const GAME_OVER_INTERVAL_VALUE = 31000;
+const initialRoadSecondsDuration = 130;
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 var playerDirection = ""
@@ -33,15 +38,15 @@ function gameLoop() {
         return;
     
     var currentPlayerLeft = parseFloat(player.style.left);
-    if(playerDirection && player) {
-        const toRight = playerDirection == "right";
-        if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 84)) 
-        {
-            const newLeftValue = toRight ? currentPlayerLeft + 7 : currentPlayerLeft - 7
-            player.style.left = `${newLeftValue}%`;
-            currentPlayerLeft = newLeftValue;
-        }
-    }
+    // if(playerDirection && player) {
+    //     const toRight = playerDirection == "right";
+    //     if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 84)) 
+    //     {
+    //         const newLeftValue = toRight ? currentPlayerLeft + 4 : currentPlayerLeft - 4
+    //         player.style.left = `${newLeftValue}%`;
+    //         currentPlayerLeft = newLeftValue;
+    //     }
+    // }
 
     playerBounding = player.getBoundingClientRect();
 
@@ -57,9 +62,6 @@ function gameLoop() {
         }
         if(isCollide(currentDynamicItem.htmlElement, player)) {        
             moves++;
-            if(currentDynamicItem && currentDynamicItem.type == "OBSTACLE") {
-                return;
-            }
 
             const isReachedTargetNum = calculateAggreatedValue(currentDynamicItem);
             dynamicItemsManagerInstance.removeItemById(currentDynamicItem)
@@ -69,7 +71,18 @@ function gameLoop() {
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
-            gestureManagerInstance.showCollidionGesture(currentDynamicItem.htmlElement, itemBoundries.top, itemBoundries.left)
+            
+            if(currentDynamicItem.type == "OBSTACLE") {
+                gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
+                    itemBoundries.top, 
+                    itemBoundries.left, 
+                    `+${currentDynamicItem.numericValue}`)
+                return;
+            }
+
+            gestureManagerInstance.showCollidionGesture(currentDynamicItem.htmlElement, 
+                    itemBoundries.top, 
+                    itemBoundries.left)
         }
     });
 }
@@ -115,7 +128,6 @@ function calcAndPrintAggreatedValue(animationValue) {
 
 function updateIndicationLabels(aggregatedValue) {
     document.getElementById("currentCount").innerHTML = aggregatedValue
-    document.getElementById("currentVal").innerHTML = aggregatedValue
 }
 
 function showAddedAnimation(value) {
@@ -154,21 +166,33 @@ function generateNewTargetNumber() {
 function checkKey(e) {
 
     e = e || window.event;
-
-    if (e.keyCode == '38') {
-        // up arrow
-    }
-    else if (e.keyCode == '40') {
-        // down arrow
-    }
-    else if (e.keyCode == '37') {
-        movePlayer("left");
+    if (e.keyCode == '37') {
+        if(playerDirection == "left") {
+            //changeRoadSpeed(72)
+        }
+        else {
+           // changeRoadSpeed(initialRoadSecondsDuration)
+           
+           player.classList.remove("player-to-right")
+           player.classList.add("player-to-left")
+           movePlayer("left");
+        }
        // left arrow
     }
     else if (e.keyCode == '39') {
-        movePlayer("right");
+        if(playerDirection == "right") { 
+          //  changeRoadSpeed(72)
+        }
+        else {
+            //changeRoadSpeed(initialRoadSecondsDuration)
+
+            player.classList.remove("player-to-left")
+            player.classList.add("player-to-right")
+            movePlayer("right");
+        }
        // right arrow
     }
+    
 
 }
 
@@ -234,8 +258,9 @@ function startGame() {
     //generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
     dynamicItemsManagerInstance = new dynamicItemsManager(pathNum, numInPathPositionLeftRange)
     dynamicItemsManagerInstance.initTimeout();
-    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
+    //gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverInterval = setInterval(countDownToGameOver, 1000)
+    gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 }
 
 function gameOver() {
@@ -253,7 +278,12 @@ function tryAgain() {
 }
 
 function countDownToGameOver() {
-    document.getElementById("clock").innerHTML = adjustGameOverCounterText(--gameOverCountDown);
+    const clockElement = document.getElementById("clock");
+    clockElement.innerHTML = adjustGameOverCounterText(--gameOverCountDown);
+    if(gameOverCountDown === 0) {
+        gameOver()
+        clockElement.classList.add("blink")
+    }
 }
 
 function adjustGameOverCounterText(countValue) {
@@ -262,4 +292,8 @@ function adjustGameOverCounterText(countValue) {
         return text + countValue
     
     return text + "0" + countValue;
+}
+
+function changeRoadSpeed(newSpeedNumeric) {
+    document.getElementById("container").style["-webkit-animation-duration"] = newSpeedNumeric + "s";
 }
