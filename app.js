@@ -16,10 +16,12 @@ const GAME_OVER_INTERVAL_VALUE = 31000;
 const initialRoadSecondsDuration = 130;
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
+var INITIAL_NUMBER = 50
 var playerDirection = ""
 var animationAllowed = true;
 var aggregatedValue = 50;
 var moves = 0;
+var percentage = 0;
 var coins = 0;
 var speedOfFallingFactor = 1;
 var gameScreenWidth;
@@ -68,10 +70,14 @@ function gameLoop() {
 
             // animation
             if(isReachedTargetNum) {
+                percentage = 100
+                INITIAL_NUMBER += 10;
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
-            
+            updatePercentage()
+            console.log(percentage)
+
             if(currentDynamicItem.type == "OBSTACLE") {
                 gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
                     itemBoundries.top, 
@@ -158,7 +164,7 @@ function keepAnimation() {
 function generateNewTargetNumber() {
     targetNumber = randomIntFromInterval(10, 14);
     targetNumber = 0;
-    aggregatedValue = 50;
+    aggregatedValue = INITIAL_NUMBER;
     document.getElementById('target-num').innerHTML = targetNumber;
 }
 
@@ -237,7 +243,8 @@ function startup() {
 function reset() {
     generateNewTargetNumber();
     moves = 0;
-    aggregatedValue = 50;
+    aggregatedValue = INITIAL_NUMBER;
+    percentage = 0
     clearTimeout(gameOverTimeout);
     gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000;
@@ -296,4 +303,17 @@ function adjustGameOverCounterText(countValue) {
 
 function changeRoadSpeed(newSpeedNumeric) {
     document.getElementById("container").style["-webkit-animation-duration"] = newSpeedNumeric + "s";
+}
+
+function updatePercentage() {
+    if(aggregatedValue > INITIAL_NUMBER) {
+        percentage = 0;
+        return;
+    }
+        
+    percentage = 100 - ((aggregatedValue / INITIAL_NUMBER) * 100)
+}
+
+function isAggreatedNumberNegative() {
+    return aggregatedValue < 0
 }

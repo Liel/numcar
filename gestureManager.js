@@ -47,7 +47,7 @@ class gestureManager {
             elementAnimation.classList.add(customClass)
 
         elementAnimation.style.cssText = `
-            top: ${top}; 
+            top: ${top + 5}; 
             left: ${left};
         `;
         document.body.append(elementAnimation)

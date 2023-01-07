@@ -15,7 +15,10 @@ class dynamicItemsManager {
         this.pathsCount = pathsCount;
         this.numInPathPositionLeftRange = numInPathPositionLeftRange
         this.currentInstance = this;
+
         this.generateNewNumberItem = this.generateNewNumberItem.bind(this); 
+        this.prepateRegularNum = this.prepateRegularNum.bind(this);
+        this.prepateObstacle = this.prepateObstacle.bind(this);
     }
 
     initTimeout() {
@@ -44,10 +47,10 @@ class dynamicItemsManager {
 
     randomizeItemType() {
         var d = Math.random();
-        if (d < 0.5)
+        if (d < 0.6)
             // 50% chance of being here
             return "REGULAR_NUM"
-        else if (d < 0.9)
+        else if (d < 0.95)
             return "OBSTACLE"
         else {
             return "GOLD"
@@ -100,7 +103,7 @@ class dynamicItemsManager {
     }
 
     prepateRegularNum(item) {
-        const isPlus = false // randomIntFromInterval(1, 2) == 1
+        const isPlus = isAggreatedNumberNegative() // randomIntFromInterval(1, 2) == 1
         item.operator = isPlus ? "plus" : "minus";
         item.numericValue = randomIntFromInterval(1, 10)
         item.displayValue = `${isPlus ? "+" : "-"}${item.numericValue}`
@@ -119,12 +122,13 @@ class dynamicItemsManager {
 
     prepateObstacle(item) {
         item.numericValue = 5
-        item.operator = "plus"
+        item.isPlus = !isAggreatedNumberNegative()
+        item.operator = item.isPlus ? "plus" : "minus";
         item.displayValue = ``
         // TODO: emit event
         //moves++;
         item.class = "obstacle";
-    }
+    }   
 
     removeItemById(item) {
         if(item.htmlElement)
