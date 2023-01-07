@@ -4,7 +4,8 @@
 // but maybe we should have instead a var for "startingFrom" which is 50
 const gestureManagerInstance = new gestureManager()
 var dynamicItemsManagerInstance;
-var progressBarInstance = new ProgressBarManager();
+const progressBarInstance = new ProgressBarManager();
+const playerInstance = new Player();
 
 var gameLoopInterval;
 var generateItemsTimeout;
@@ -36,21 +37,8 @@ var targetNumber;
 var gameScreenHeight; 
 
 function gameLoop() {
-    if(!animationAllowed || !player)
+    if(!animationAllowed || !playerInstance || !playerInstance.player)
         return;
-    
-    var currentPlayerLeft = parseFloat(player.style.left);
-    // if(playerDirection && player) {
-    //     const toRight = playerDirection == "right";
-    //     if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 84)) 
-    //     {
-    //         const newLeftValue = toRight ? currentPlayerLeft + 4 : currentPlayerLeft - 4
-    //         player.style.left = `${newLeftValue}%`;
-    //         currentPlayerLeft = newLeftValue;
-    //     }
-    // }
-
-    playerBounding = player.getBoundingClientRect();
 
     dynamicItemsManagerInstance.getAllItems().forEach(function(currentDynamicItem) {
 
@@ -62,7 +50,7 @@ function gameLoop() {
             dynamicItemsManagerInstance.removeItemById(currentDynamicItem)
             return;
         }
-        if(isCollide(currentDynamicItem.htmlElement, player)) {        
+        if(isCollide(currentDynamicItem.htmlElement, playerInstance.player)) {        
             moves++;
 
             const isReachedTargetNum = calculateAggreatedValue(currentDynamicItem);
@@ -172,31 +160,11 @@ function generateNewTargetNumber() {
 function checkKey(e) {
 
     e = e || window.event;
-    if (e.keyCode == '37') {
-        if(playerDirection == "left") {
-            //changeRoadSpeed(72)
-        }
-        else {
-           // changeRoadSpeed(initialRoadSecondsDuration)
-           
-           player.classList.remove("player-to-right")
-           player.classList.add("player-to-left")
-           movePlayer("left");
-        }
-       // left arrow
+    if (e.keyCode == KEYBOARD_ARROWS.LEFT) {
+        playerInstance.setDirection("left")
     }
-    else if (e.keyCode == '39') {
-        if(playerDirection == "right") { 
-          //  changeRoadSpeed(72)
-        }
-        else {
-            //changeRoadSpeed(initialRoadSecondsDuration)
-
-            player.classList.remove("player-to-left")
-            player.classList.add("player-to-right")
-            movePlayer("right");
-        }
-       // right arrow
+    else if (e.keyCode == KEYBOARD_ARROWS.RIGHT) {
+        playerInstance.setDirection("right")
     }
     
 
@@ -212,15 +180,11 @@ function movePlayer(direction) {
 function startup() {
     generateNewTargetNumber();
     calcAndPrintAggreatedValue(0)
-    player = document.getElementById("player");
-    player.style.bottom = playerBottom + "%"
 
-    playerBounding = player.getBoundingClientRect();
-    player.setAttribute("top", playerBounding.top);
     gameScreenHeight = parseInt(document.getElementById('gameScreen').getBoundingClientRect().height);
     gameScreenWidth = parseInt(document.getElementById('container').getBoundingClientRect().width);
-    playerHeightPercentage = playerBounding.height/gameScreenHeight*100
-    playerWidthPercentage = playerBounding.width/gameScreenWidth*100
+    playerInstance.init(gameScreenHeight, gameScreenWidth);
+
     coins = 0;
     progressBarInstance.init(targetNumber);
 
@@ -232,10 +196,10 @@ function startup() {
     });
     document.addEventListener("touchstart", function(e) {
         if(e.touches[0].clientX > gameScreenXCenter) {
-            checkKey({keyCode: '39'}) // right
+            checkKey({keyCode: KEYBOARD_ARROWS.RIGHT}) // right
         }
         else {
-            checkKey({keyCode: '37'}) // left
+            checkKey({keyCode: KEYBOARD_ARROWS.LEFT}) // left
         }
     });
 }

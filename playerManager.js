@@ -1,8 +1,9 @@
 class Player {
-    playerDomElement;
+    player; // DOM element
     playerHeightPercentage;
     playerWidthPercentage;
     playerBounding;
+    bottom = 22;
     normalSpeed = 4;
     direction;
     directionClasses = {
@@ -10,21 +11,13 @@ class Player {
         right: "player-to-right"
     }
 
-    init() {
+    init(gameScreenHeight, gameScreenWidth) {
         this.player = document.getElementById("player");
-        this.player.style.bottom = playerBottom + "%"
-        this.playerBounding = player.getBoundingClientRect();
-        this.player.setAttribute("top", playerBounding.top);
-        this.playerHeightPercentage = playerBounding.height/gameScreenHeight*100
-        this.playerWidthPercentage = playerBounding.width/gameScreenWidth*100
-    }
-
-    moveRight() {
-
-    }
-
-    moveLeft() {
-
+        this.player.style.bottom = this.bottom + "%"
+        this.playerBounding = this.player.getBoundingClientRect();
+        this.player.setAttribute("top", this.playerBounding.top);
+        this.playerHeightPercentage = this.playerBounding.height/gameScreenHeight*100
+        this.playerWidthPercentage = this.playerBounding.width/gameScreenWidth*100
     }
 
     setDirection(direction) {
@@ -34,8 +27,8 @@ class Player {
         }
 
         this.direction = direction
+        this.player.className = ""
         this.player.classList.add(this.directionClasses[direction])
-        // todo: remove the other class, and make sure app.js sending valid value for this method
     }
 
     increaseSpeed() {
