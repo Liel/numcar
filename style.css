@@ -424,3 +424,7 @@ div#welcome {
   transition-duration: 2s !important;
   left: 84% !important;
 }
+
+.faster {
+  transition-duration: 0.5s !important;
+}

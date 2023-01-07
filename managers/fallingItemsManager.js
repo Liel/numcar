@@ -4,6 +4,11 @@ class dynamicItemsManager {
     generateItemsTimeout;
     pathsCount;
     currentInstance;
+    itemTypes = {
+        REGULAR_NUM: "REGULAR_NUM",
+        OBSTACLE: "OBSTACLE",
+        GOLD: "GOLD"
+    }
 
     prepareItemByType = {
         "REGULAR_NUM": this.prepateRegularNum,

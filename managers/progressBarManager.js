@@ -30,7 +30,6 @@ class ProgressBarManager {
               if (value === 0) {
                 bar.setText(``);
               } else {
-                const whatLeft = this.targetNumber - this.currentValue
                 bar.setText(this.currentValue + "<br /><div id='counter-label'>to make it ZERO!</div>");
               }
           
@@ -40,7 +39,7 @@ class ProgressBarManager {
           this.bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
           this.bar.text.style.fontSize = '2rem';
 
-          this.updateProgress(50)
+          this.updateProgress(targetNumber)
     }
 
     generateMessage(leftValue) {
@@ -57,12 +56,17 @@ class ProgressBarManager {
             return;
         
         this.currentValue = value;
-        this.bar.animate(value / 50);
+        this.bar.animate(value / this.targetNumber);
+    }
+
+    updateTargetNumber(targetNumber) {
+      this.targetNumber = targetNumber
+      this.updateProgress(this.targetNumber);
     }
 
     reset(targetNumber) {
         this.bar.animate(0);
         this.currentValue = 0;
-        this.targetNumber = 50;    
+        this.targetNumber = targetNumber;    
     }
 }

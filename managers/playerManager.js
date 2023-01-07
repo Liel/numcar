@@ -4,8 +4,8 @@ class Player {
     playerWidthPercentage;
     playerBounding;
     bottom = 22;
-    normalSpeed = 4;
     direction;
+    isSuspended = false;
     directionClasses = {
         left: "player-to-left",
         right: "player-to-right"
@@ -20,7 +20,18 @@ class Player {
         this.playerWidthPercentage = this.playerBounding.width/gameScreenWidth*100
     }
 
+    suspend() {
+        this.isSuspended = true;
+    }
+
+    releaseSuspention() {
+        this.isSuspended = false;
+    }
+
     setDirection(direction) {
+        if(this.isSuspended)
+            return;
+
         if(this.direction == direction) {
             this.increaseSpeed()
             return;
@@ -32,9 +43,6 @@ class Player {
     }
 
     increaseSpeed() {
-        this.currentSpeed = this.normalSpeed + 3
-
-        // todo: just change tranistion-duration
-        // document.getElementById("player").style["-webkit-animation-duration"] = newSpeedNumeric + "s";
+        document.getElementById("player").classList.add("faster")
     }
 }

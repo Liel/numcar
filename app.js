@@ -12,9 +12,9 @@ var generateItemsTimeout;
 
 const pathNum = 4;
 const numInPathPositionLeftRange = [11,25];
-const playerBottom = 22;
 const GAME_OVER_INTERVAL_VALUE = 31000;
 const initialRoadSecondsDuration = 130;
+const clockElement = document.getElementById("clock");
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 var INITIAL_NUMBER = 50
@@ -26,13 +26,7 @@ var percentage = 0;
 var coins = 0;
 var speedOfFallingFactor = 1;
 var gameScreenWidth;
-var playerHeightPercentage;
-var playerWidthPercentage;
-var currentPath = 0;
-var gameOverTimeout;
 
-var player;
-var playerBounding;
 var targetNumber;
 var gameScreenHeight; 
 
@@ -60,13 +54,14 @@ function gameLoop() {
             if(isReachedTargetNum) {
                 percentage = 100
                 INITIAL_NUMBER += 10;
+                progressBarInstance.updateTargetNumber(INITIAL_NUMBER)
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
             updatePercentage()
             console.log(percentage)
 
-            if(currentDynamicItem.type == "OBSTACLE") {
+            if(currentDynamicItem.type == dynamicItemsManagerInstance.itemTypes.OBSTACLE) {
                 gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
                     itemBoundries.top, 
                     itemBoundries.left, 
@@ -186,7 +181,7 @@ function startup() {
     playerInstance.init(gameScreenHeight, gameScreenWidth);
 
     coins = 0;
-    progressBarInstance.init(targetNumber);
+    progressBarInstance.init(this.INITIAL_NUMBER);
 
     const gameScreenXCenter = gameScreenWidth / 2;
 
@@ -209,8 +204,6 @@ function reset() {
     moves = 0;
     aggregatedValue = INITIAL_NUMBER;
     percentage = 0
-    clearTimeout(gameOverTimeout);
-    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000;
     dynamicItemsManagerInstance.removeAll();
     progressBarInstance.reset(targetNumber)
@@ -226,10 +219,8 @@ function startGame() {
     setTimeout(startup, 200)
     document.getElementById("welcome").classList.add("hidden");
     gameLoopInterval = setInterval(gameLoop, 50);
-    //generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
     dynamicItemsManagerInstance = new dynamicItemsManager(pathNum, numInPathPositionLeftRange)
     dynamicItemsManagerInstance.initTimeout();
-    //gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverInterval = setInterval(countDownToGameOver, 1000)
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 }
@@ -239,17 +230,19 @@ function gameOver() {
     clearInterval(gameLoopInterval);
     clearInterval(gameOverInterval)
     const gameOverElement = document.getElementById("gameOver");
+    playerInstance.suspend();
     gameOverElement.classList.remove("hidden")
 }
 
 function tryAgain() {
     const gameOverElement = document.getElementById("gameOver");
     gameOverElement.classList.add("hidden")
+    playerInstance.releaseSuspention();
+
     startGame();
 }
 
 function countDownToGameOver() {
-    const clockElement = document.getElementById("clock");
     clockElement.innerHTML = adjustGameOverCounterText(--gameOverCountDown);
     if(gameOverCountDown === 0) {
         gameOver()
