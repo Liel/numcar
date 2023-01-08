@@ -28,6 +28,11 @@ div#welcome {
     background-repeat: no-repeat;
 }
 
+#welcome-car {
+  transform: rotate(0deg);
+  animation: rotation 2s linear infinite;
+}
+
 #startGame {
     padding: 5%;
     background: #f6cf02;
@@ -108,8 +113,8 @@ div#welcome {
 }
 
 #player {
-  width: 26%;
-  height: 242px;
+  width: 16%;
+  height: 235px;
   position: absolute;
   bottom: 3%;
   left: 15%;
@@ -119,7 +124,7 @@ div#welcome {
   text-align: center;
   line-height: 4;
   font-size: 11pt;
-  background-size: 125%;
+  background-size: 100%;
   color: white;
   background-image: url(assets/car_topview.png);
   background-repeat: no-repeat;
@@ -303,6 +308,16 @@ div#welcome {
         top: 1000%;
     }
 }
+
+@keyframes rotation {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
 
   .coins {
     position: absolute;
