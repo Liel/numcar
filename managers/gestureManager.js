@@ -47,7 +47,7 @@ class gestureManager {
             elementAnimation.classList.add(customClass)
 
         elementAnimation.style.cssText = `
-            top: ${top}; 
+            top: ${top + 5}; 
             left: ${left};
         `;
         document.body.append(elementAnimation)
@@ -77,5 +77,15 @@ class gestureManager {
             `;
             elementAnimation.removeWithTimeout(1000)
         }, 200)
+    }
+
+    showProgressGesture(newInitalNumber) {
+        // this.gestureElement.innerHTML = newInitalNumber;
+        // const animationClass = this.gesturesClasses[randomIntFromInterval(0, this.gesturesClasses.length)]
+        // this.gestureElement.classList.add(animationClass)
+        // setTimeout(() => { 
+        //     this.gestureElement.innerHTML = "";
+        //     this.gestureElement.classList.remove(animationClass)
+        //  }, 1200)
     }
 }

@@ -4,51 +4,35 @@
 // but maybe we should have instead a var for "startingFrom" which is 50
 const gestureManagerInstance = new gestureManager()
 var dynamicItemsManagerInstance;
-var progressBarInstance = new ProgressBarManager();
+const progressBarInstance = new ProgressBarManager();
+const playerInstance = new Player();
 
 var gameLoopInterval;
 var generateItemsTimeout;
 
 const pathNum = 4;
 const numInPathPositionLeftRange = [11,25];
-const playerBottom = 22;
 const GAME_OVER_INTERVAL_VALUE = 31000;
 const initialRoadSecondsDuration = 130;
+const clockElement = document.getElementById("clock");
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
+var INITIAL_NUMBER = 50
 var playerDirection = ""
 var animationAllowed = true;
 var aggregatedValue = 50;
 var moves = 0;
+var percentage = 0;
 var coins = 0;
 var speedOfFallingFactor = 1;
 var gameScreenWidth;
-var playerHeightPercentage;
-var playerWidthPercentage;
-var currentPath = 0;
-var gameOverTimeout;
 
-var player;
-var playerBounding;
 var targetNumber;
 var gameScreenHeight; 
 
 function gameLoop() {
-    if(!animationAllowed || !player)
+    if(!animationAllowed || !playerInstance || !playerInstance.player)
         return;
-    
-    var currentPlayerLeft = parseFloat(player.style.left);
-    // if(playerDirection && player) {
-    //     const toRight = playerDirection == "right";
-    //     if((!toRight && currentPlayerLeft > -20) || (toRight && currentPlayerLeft < 84)) 
-    //     {
-    //         const newLeftValue = toRight ? currentPlayerLeft + 4 : currentPlayerLeft - 4
-    //         player.style.left = `${newLeftValue}%`;
-    //         currentPlayerLeft = newLeftValue;
-    //     }
-    // }
-
-    playerBounding = player.getBoundingClientRect();
 
     dynamicItemsManagerInstance.getAllItems().forEach(function(currentDynamicItem) {
 
@@ -60,7 +44,7 @@ function gameLoop() {
             dynamicItemsManagerInstance.removeItemById(currentDynamicItem)
             return;
         }
-        if(isCollide(currentDynamicItem.htmlElement, player)) {        
+        if(isCollide(currentDynamicItem.htmlElement, playerInstance.player)) {        
             moves++;
 
             const isReachedTargetNum = calculateAggreatedValue(currentDynamicItem);
@@ -68,11 +52,16 @@ function gameLoop() {
 
             // animation
             if(isReachedTargetNum) {
+                percentage = 100
+                INITIAL_NUMBER += 10;
+                progressBarInstance.updateTargetNumber(INITIAL_NUMBER)
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
-            
-            if(currentDynamicItem.type == "OBSTACLE") {
+            updatePercentage()
+            console.log(percentage)
+
+            if(currentDynamicItem.type == dynamicItemsManagerInstance.itemTypes.OBSTACLE) {
                 gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
                     itemBoundries.top, 
                     itemBoundries.left, 
@@ -158,7 +147,7 @@ function keepAnimation() {
 function generateNewTargetNumber() {
     targetNumber = randomIntFromInterval(10, 14);
     targetNumber = 0;
-    aggregatedValue = 50;
+    aggregatedValue = INITIAL_NUMBER;
     document.getElementById('target-num').innerHTML = targetNumber;
 }
 
@@ -166,31 +155,11 @@ function generateNewTargetNumber() {
 function checkKey(e) {
 
     e = e || window.event;
-    if (e.keyCode == '37') {
-        if(playerDirection == "left") {
-            //changeRoadSpeed(72)
-        }
-        else {
-           // changeRoadSpeed(initialRoadSecondsDuration)
-           
-           player.classList.remove("player-to-right")
-           player.classList.add("player-to-left")
-           movePlayer("left");
-        }
-       // left arrow
+    if (e.keyCode == KEYBOARD_ARROWS.LEFT) {
+        playerInstance.setDirection("left")
     }
-    else if (e.keyCode == '39') {
-        if(playerDirection == "right") { 
-          //  changeRoadSpeed(72)
-        }
-        else {
-            //changeRoadSpeed(initialRoadSecondsDuration)
-
-            player.classList.remove("player-to-left")
-            player.classList.add("player-to-right")
-            movePlayer("right");
-        }
-       // right arrow
+    else if (e.keyCode == KEYBOARD_ARROWS.RIGHT) {
+        playerInstance.setDirection("right")
     }
     
 
@@ -206,17 +175,13 @@ function movePlayer(direction) {
 function startup() {
     generateNewTargetNumber();
     calcAndPrintAggreatedValue(0)
-    player = document.getElementById("player");
-    player.style.bottom = playerBottom + "%"
 
-    playerBounding = player.getBoundingClientRect();
-    player.setAttribute("top", playerBounding.top);
     gameScreenHeight = parseInt(document.getElementById('gameScreen').getBoundingClientRect().height);
     gameScreenWidth = parseInt(document.getElementById('container').getBoundingClientRect().width);
-    playerHeightPercentage = playerBounding.height/gameScreenHeight*100
-    playerWidthPercentage = playerBounding.width/gameScreenWidth*100
+    playerInstance.init(gameScreenHeight, gameScreenWidth);
+
     coins = 0;
-    progressBarInstance.init(targetNumber);
+    progressBarInstance.init(this.INITIAL_NUMBER);
 
     const gameScreenXCenter = gameScreenWidth / 2;
 
@@ -226,10 +191,10 @@ function startup() {
     });
     document.addEventListener("touchstart", function(e) {
         if(e.touches[0].clientX > gameScreenXCenter) {
-            checkKey({keyCode: '39'}) // right
+            checkKey({keyCode: KEYBOARD_ARROWS.RIGHT}) // right
         }
         else {
-            checkKey({keyCode: '37'}) // left
+            checkKey({keyCode: KEYBOARD_ARROWS.LEFT}) // left
         }
     });
 }
@@ -237,9 +202,8 @@ function startup() {
 function reset() {
     generateNewTargetNumber();
     moves = 0;
-    aggregatedValue = 50;
-    clearTimeout(gameOverTimeout);
-    gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
+    aggregatedValue = INITIAL_NUMBER;
+    percentage = 0
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000;
     dynamicItemsManagerInstance.removeAll();
     progressBarInstance.reset(targetNumber)
@@ -255,10 +219,8 @@ function startGame() {
     setTimeout(startup, 200)
     document.getElementById("welcome").classList.add("hidden");
     gameLoopInterval = setInterval(gameLoop, 50);
-    //generateItemsTimeout = setTimeout(generateNewNumberItem, 400);
     dynamicItemsManagerInstance = new dynamicItemsManager(pathNum, numInPathPositionLeftRange)
     dynamicItemsManagerInstance.initTimeout();
-    //gameOverTimeout = setTimeout(gameOver, GAME_OVER_INTERVAL_VALUE);
     gameOverInterval = setInterval(countDownToGameOver, 1000)
     gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
 }
@@ -268,17 +230,19 @@ function gameOver() {
     clearInterval(gameLoopInterval);
     clearInterval(gameOverInterval)
     const gameOverElement = document.getElementById("gameOver");
+    playerInstance.suspend();
     gameOverElement.classList.remove("hidden")
 }
 
 function tryAgain() {
     const gameOverElement = document.getElementById("gameOver");
     gameOverElement.classList.add("hidden")
+    playerInstance.releaseSuspention();
+
     startGame();
 }
 
 function countDownToGameOver() {
-    const clockElement = document.getElementById("clock");
     clockElement.innerHTML = adjustGameOverCounterText(--gameOverCountDown);
     if(gameOverCountDown === 0) {
         gameOver()
@@ -296,4 +260,17 @@ function adjustGameOverCounterText(countValue) {
 
 function changeRoadSpeed(newSpeedNumeric) {
     document.getElementById("container").style["-webkit-animation-duration"] = newSpeedNumeric + "s";
+}
+
+function updatePercentage() {
+    if(aggregatedValue > INITIAL_NUMBER) {
+        percentage = 0;
+        return;
+    }
+        
+    percentage = 100 - ((aggregatedValue / INITIAL_NUMBER) * 100)
+}
+
+function isAggreatedNumberNegative() {
+    return aggregatedValue < 0
 }
