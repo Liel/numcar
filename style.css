@@ -6,6 +6,16 @@ body {
     padding: 0;
 }
 
+#drive-to-zero {
+  font-family: 'Rubik 80s Fade';
+  font-size: 6vh;
+  color: #ffda18;
+  border: 1px;
+  border-style: groove;
+  transform: rotate(-15deg);
+  box-shadow: 4px 0 16px;
+}
+
 .disable-dbl-tap-zoom {
     touch-action: manipulation;
   }
@@ -69,7 +79,7 @@ div#welcome {
 }
 
 .fallingNumber {
-  font-size: 25pt;
+  font-size: 32pt;
   color: white;
   font-weight: 600;
   position: absolute;
@@ -82,8 +92,9 @@ div#welcome {
   justify-content: space-evenly;
   border: 7px solid red;
   align-items: center;
+  justify-content: center;
   font-family: 'Press Start 2P', cursive;
-  animation: fallingNum 28s linear infinite;
+  animation: fallingNum 30s linear infinite;
 }
 
 .gold {
@@ -408,10 +419,8 @@ div#welcome {
 }
 
 #progress {
-  margin: 2px;
     width: 370px;
-    height: 126px;
-    margin-top: 10%;
+    margin-top: 52%;
 }
 
 .progressbar-text {
@@ -419,7 +428,12 @@ div#welcome {
   font-family: 'Caveat', cursive !important;
   font-size: 5vh !important;
   line-height: 57px;
-  width: 88%;
+  width: 100%;
+}
+
+.progressbar-text #barPercentage {
+  font-size: 2vh;
+  margin-top: 4%;
 }
 
 #counter-label {

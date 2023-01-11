@@ -108,10 +108,10 @@ class dynamicItemsManager {
     }
 
     prepateRegularNum(item) {
-        const isPlus = isAggreatedNumberNegative() // randomIntFromInterval(1, 2) == 1
+        const isPlus = !isOverlappingTargetNumber()
         item.operator = isPlus ? "plus" : "minus";
         item.numericValue = randomIntFromInterval(1, 10)
-        item.displayValue = `${isPlus ? "+" : "-"}${item.numericValue}`
+        item.displayValue = `${isPlus ? "" : "-"}${item.numericValue}`
     }
 
     prepareGoldNum(item) {
@@ -126,8 +126,8 @@ class dynamicItemsManager {
     }
 
     prepateObstacle(item) {
-        item.numericValue = 5
-        item.isPlus = !isAggreatedNumberNegative()
+        item.numericValue = -5
+        item.isPlus = isOverlappingTargetNumber()
         item.operator = item.isPlus ? "plus" : "minus";
         item.displayValue = ``
         // TODO: emit event

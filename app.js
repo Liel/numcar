@@ -15,12 +15,13 @@ const numInPathPositionLeftRange = [11,25];
 const GAME_OVER_INTERVAL_VALUE = 31000;
 const initialRoadSecondsDuration = 130;
 const clockElement = document.getElementById("clock");
+const INITIAL_TARGET_NUMBER = 20;
+const INITIAL_NUMBER = 0
 
 var gameOverCountDown = GAME_OVER_INTERVAL_VALUE / 1000
-var INITIAL_NUMBER = 50
 var playerDirection = ""
 var animationAllowed = true;
-var aggregatedValue = 50;
+var aggregatedValue = 0;
 var moves = 0;
 var percentage = 0;
 var coins = 0;
@@ -53,8 +54,6 @@ function gameLoop() {
             // animation
             if(isReachedTargetNum) {
                 percentage = 100
-                INITIAL_NUMBER += 10;
-                progressBarInstance.updateTargetNumber(INITIAL_NUMBER)
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
                 return;
             }
@@ -65,7 +64,7 @@ function gameLoop() {
                 gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
                     itemBoundries.top, 
                     itemBoundries.left, 
-                    `+${currentDynamicItem.numericValue}`)
+                    `${currentDynamicItem.numericValue}`)
                 return;
             }
 
@@ -145,8 +144,7 @@ function keepAnimation() {
 }
 
 function generateNewTargetNumber() {
-    targetNumber = randomIntFromInterval(10, 14);
-    targetNumber = 0;
+    targetNumber = (targetNumber || INITIAL_TARGET_NUMBER) + 10;
     aggregatedValue = INITIAL_NUMBER;
     document.getElementById('target-num').innerHTML = targetNumber;
 }
@@ -181,7 +179,7 @@ function startup() {
     playerInstance.init(gameScreenHeight, gameScreenWidth);
 
     coins = 0;
-    progressBarInstance.init(this.INITIAL_NUMBER);
+    progressBarInstance.init(targetNumber);
 
     const gameScreenXCenter = gameScreenWidth / 2;
 
@@ -271,6 +269,6 @@ function updatePercentage() {
     percentage = 100 - ((aggregatedValue / INITIAL_NUMBER) * 100)
 }
 
-function isAggreatedNumberNegative() {
-    return aggregatedValue < 0
+function isOverlappingTargetNumber() {
+    return aggregatedValue > targetNumber
 }
