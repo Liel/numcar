@@ -79,7 +79,8 @@ div#welcome {
 }
 
 .fallingNumber {
-  font-size: 32pt;
+  font-size: 35pt;
+  padding: 1%;
   color: white;
   font-weight: 600;
   position: absolute;
@@ -104,6 +105,7 @@ div#welcome {
 
 .obstacle {
   background-color: red;
+  color: red;
   box-shadow: 0 0 7px red;
 }
 
@@ -419,8 +421,9 @@ div#welcome {
 }
 
 #progress {
-    width: 370px;
+    width: 380px;
     margin-top: 52%;
+    height: 25px;
 }
 
 .progressbar-text {

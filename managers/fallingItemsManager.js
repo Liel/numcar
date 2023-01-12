@@ -119,19 +119,17 @@ class dynamicItemsManager {
         const isPlus = item.numericValue > 0
         item.operator = isPlus ? "plus" : "minus";
         item.numericValue = Math.abs(item.numericValue)
-        item.displayValue = `${isPlus ? "+" : "-"}${item.numericValue}`
+        item.displayValue = `${isPlus ? "" : "-"}${item.numericValue}`
         // TODO: emit event
-        //moves++;
         item.class = "gold";
     }
 
     prepateObstacle(item) {
-        item.numericValue = -5
+        item.numericValue = 5
         item.isPlus = isOverlappingTargetNumber()
         item.operator = item.isPlus ? "plus" : "minus";
-        item.displayValue = ``
+        item.displayValue = `${item.isPlus ? "" : "-"}${item.numericValue}`
         // TODO: emit event
-        //moves++;
         item.class = "obstacle";
     }   
 

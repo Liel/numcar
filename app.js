@@ -58,19 +58,20 @@ function gameLoop() {
                 return;
             }
             updatePercentage()
-            console.log(percentage)
+            console.log(aggregatedValue)
 
             if(currentDynamicItem.type == dynamicItemsManagerInstance.itemTypes.OBSTACLE) {
                 gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
                     itemBoundries.top, 
-                    itemBoundries.left, 
-                    `${currentDynamicItem.numericValue}`)
+                    itemBoundries.left,
+                    `${operatorsDispay[currentDynamicItem.operator]}${currentDynamicItem.numericValue}`)
                 return;
             }
 
             gestureManagerInstance.showCollidionGesture(currentDynamicItem.htmlElement, 
                     itemBoundries.top, 
-                    itemBoundries.left)
+                    itemBoundries.left,
+                    `${operatorsDispay[currentDynamicItem.operator]}${currentDynamicItem.numericValue}`)
         }
     });
 }
