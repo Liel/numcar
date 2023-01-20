@@ -95,7 +95,7 @@ div#welcome {
   align-items: center;
   justify-content: center;
   font-family: 'Press Start 2P', cursive;
-  animation: fallingNum 30s linear infinite;
+  animation: fallingNum 28s linear infinite;
 }
 
 .gold {
@@ -294,7 +294,7 @@ div#welcome {
     background-repeat-y: repeat;
     background-position-y: 27px;
     background-position-x: 50%;
-    animation: loopingRoad 130s linear infinite;
+    animation: loopingRoad 140s cubic-bezier(0.22, 0.61, 0.22, 0.61) infinite;
     height: 100%;
     width: 100%;
     
@@ -423,7 +423,7 @@ div#welcome {
 
 #progress {
   width: 512px;
-  margin-top: 22%;
+  margin-top: 13%;
   height: 62px;
 }
 
@@ -443,8 +443,7 @@ div#welcome {
     z-index: 3;
     color: black;
     font-size: 55pt;
-    top: -14px;
-    top: 44%;
+    top: 30%;
     left: 50%;
     color:white;
     text-shadow: 6px 0px blue;
@@ -456,18 +455,18 @@ div#welcome {
   color: wheat;
   font-size: 55pt;
   right: -15%;
-  top: 38%;
+  top: 22%;
   color: red;
   background: white;
   color: black;
-  border: 3px solid red;
+  border: 7px solid red;
   border-radius: 51px;
   padding: 2%;
 }
 
 #more {
   position: absolute;
-  bottom: -23%;
+  top: 115%;
   font-size: 60pt;
   left: 31%;
 }
