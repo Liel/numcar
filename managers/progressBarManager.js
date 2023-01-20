@@ -13,8 +13,8 @@ class ProgressBarManager {
         easing: 'easeInOut',
         duration: 1400,
         color: '#FFEA82',
-        trailColor: '#eee',
-        trailWidth: 1,
+        trailColor: '#303030',
+        trailWidth: 3,
         svgStyle: {width: '100%', height: '100%'},
         text: {
           style: {
@@ -50,7 +50,7 @@ class ProgressBarManager {
         this.bar = new ProgressBar.SemiCircle(progress, {
             strokeWidth: 6,
             color: '#FFEA82',
-            trailColor: '#eee',
+            trailColor: 'silver',
             trailWidth: 1,
             easing: 'easeInOut',
             duration: 1400,
@@ -77,7 +77,13 @@ class ProgressBarManager {
     generateMessage() {
       if(!this.bar)
         return ""
-
+      
+      return `<div>
+                <div id="current-value">${this.currentValue}</div>
+                <div id="perc">${Math.round(this.bar.value() * 100) + ' %'}</div>
+                <div id="target-value">${this.targetNumber}</div>
+                <div id="more">${this.targetNumber - this.currentValue} left!</div>
+              </div>`
       return (this.targetNumber - this.currentValue) + 
                 `<br /><div id='counter-label'>to make it ${this.targetNumber}!</div><div id='barPercentage'>${Math.round(this.bar.value() * 100) + ' %'}</div>`;
     }

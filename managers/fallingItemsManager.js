@@ -52,7 +52,7 @@ class dynamicItemsManager {
 
     randomizeItemType() {
         var d = Math.random();
-        if (d < 0.6)
+        if (d < 0.6 || coins < 2)
             // 50% chance of being here
             return "REGULAR_NUM"
         else if (d < 0.95)

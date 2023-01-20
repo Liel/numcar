@@ -364,6 +364,7 @@ div#welcome {
     flex-wrap: wrap;
     justify-content: center;
     line-height: 80%;
+    position: relative;
   }
 
   #indication {
@@ -421,9 +422,54 @@ div#welcome {
 }
 
 #progress {
-    width: 380px;
-    margin-top: 52%;
-    height: 25px;
+  width: 512px;
+  margin-top: 22%;
+  height: 62px;
+}
+
+#current-value {
+  display: none;
+  position: absolute;
+    z-index: 3;
+    color: black;
+    font-size: 55pt;
+    top: -14px;
+    top: 44%;
+}
+
+
+#perc {
+  position: absolute;
+    z-index: 3;
+    color: black;
+    font-size: 55pt;
+    top: -14px;
+    top: 44%;
+    left: 50%;
+    color:white;
+    text-shadow: 6px 0px blue;
+}
+
+#target-value {
+  position: absolute;
+  z-index: 3;
+  color: wheat;
+  font-size: 55pt;
+  right: -15%;
+  top: 38%;
+  color: red;
+  background: white;
+  color: black;
+  border: 3px solid red;
+  border-radius: 51px;
+  padding: 2%;
+}
+
+#more {
+  position: absolute;
+  bottom: -23%;
+  font-size: 60pt;
+  left: 31%;
 }
 
 .progressbar-text {
