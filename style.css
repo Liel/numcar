@@ -294,7 +294,7 @@ div#welcome {
     background-repeat-y: repeat;
     background-position-y: 27px;
     background-position-x: 50%;
-    animation: loopingRoad 9s linear infinite;
+    animation: loopingRoad 110s linear infinite;
     height: 100%;
     width: 100%;
     
