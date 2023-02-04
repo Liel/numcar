@@ -11,13 +11,14 @@
     <body class="disable-dbl-tap-zoom">
         <div id="welcome">
             <div id="drive-to-zero" class="shake"> 
-                Drive2Zero
+                NUM DRIVER
             </div>
             <button id="startGame" class="shake" onclick="startGame()">START</button>
             <div class="welcome-car">
                 <img class="bounceIn" src="assets/car_topview.png" />
             </div>
         </div>
+        <div id="guide"></div>
         <div id="container" class="main">
             <div id="header">
                 <div class="coins" id="cointCounter" class="hidden"></div>
@@ -53,6 +54,7 @@
         <!-- Scripts -->
         <script src="utills.js"></script>
         <script src="enums.js"></script>
+        <script src="managers/startingGuideManager.js"></script>
         <script src="managers/progressBarManager.js"></script>
         <script src="managers/playerManager.js"></script>
         <script src="managers/fallingItemsManager.js"></script>
