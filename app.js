@@ -111,6 +111,7 @@ function calcAndPrintAggreatedValue() {
     }
 
     // updateIndicationLabels(aggregatedValue)
+    document.getElementById("currentScore").innerHTML = `${aggregatedValue} out of ${targetNumber}`
     progressBarInstance.updateProgress(aggregatedValue)
     // showAddedAnimation(animationValue)
     return isReachedTheTargetNumber;
