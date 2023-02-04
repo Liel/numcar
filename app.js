@@ -5,6 +5,7 @@
 const gestureManagerInstance = new gestureManager()
 var dynamicItemsManagerInstance;
 const progressBarInstance = new ProgressBarManager();
+const startingGuideInstance = new StartingGuideManager();
 const playerInstance = new Player();
 
 var gameLoopInterval;
@@ -55,10 +56,10 @@ function gameLoop() {
             if(isReachedTargetNum) {
                 percentage = 100
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
+                dynamicItemsManagerInstance.increaseSpeed();
                 return;
             }
             updatePercentage()
-            console.log(aggregatedValue)
 
             if(currentDynamicItem.type == dynamicItemsManagerInstance.itemTypes.OBSTACLE) {
                 gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 
@@ -100,9 +101,9 @@ function calculateAggreatedValue(item) {
     return calcAndPrintAggreatedValue();    
 }
 
-function calcAndPrintAggreatedValue(animationValue) {
+function calcAndPrintAggreatedValue() {
     var isReachedTheTargetNumber = false;
-    if(aggregatedValue == targetNumber) {
+    if(aggregatedValue >= targetNumber) { // on higher steps it should be equal and not gt
         gestureManagerInstance.showGestureAnimation();
         increaseCoins();
         reset();
@@ -217,6 +218,11 @@ function stop() {
 function startGame() {
     setTimeout(startup, 200)
     document.getElementById("welcome").classList.add("hidden");
+    startingGuideInstance.start();
+    return;
+}
+
+function startGameAfterGuide() {
     gameLoopInterval = setInterval(gameLoop, 50);
     dynamicItemsManagerInstance = new dynamicItemsManager(pathNum, numInPathPositionLeftRange)
     dynamicItemsManagerInstance.initTimeout();
