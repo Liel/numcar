@@ -159,7 +159,7 @@ div#welcome {
     align-items: baseline;
     align-content: center;
     text-align: center;
-    height: 13%;
+    height: 9%;
     justify-content: center;
     font-size: 4vh;
     background-image: url(assets/bg.jpeg);
@@ -180,7 +180,7 @@ div#welcome {
 
 #clock {
   position: fixed;
-  top: 13%;
+  top: 9%;
   color: green;
   left: 34%;
   z-index: 2;
@@ -301,7 +301,7 @@ div#welcome {
     animation: loopingRoad 110s linear infinite;
     height: 100%;
     width: 100%;
-    
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -426,9 +426,11 @@ div#welcome {
 }
 
 #progress {
-  width: 512px;
-  margin-top: 13%;
-  height: 62px;
+  position: absolute !important;
+  z-index: 14;
+  width: 23%;
+  bottom: 1%;
+  right: 3%;
 }
 
 #current-value {
@@ -445,11 +447,10 @@ div#welcome {
 #perc {
   position: absolute;
     z-index: 3;
-    color: black;
-    font-size: 55pt;
-    top: 30%;
-    left: 50%;
-    color:white;
+    font-size: 69pt;
+    top: 33%;
+    left: 18%;
+    color: white;
     text-shadow: 6px 0px blue;
 }
 
@@ -458,8 +459,8 @@ div#welcome {
   z-index: 3;
   color: wheat;
   font-size: 55pt;
-  right: -15%;
-  top: 22%;
+  right: 39%;
+  top: -41%;
   color: red;
   background: white;
   color: black;
@@ -470,7 +471,8 @@ div#welcome {
 
 #more {
   position: absolute;
-  top: 100%;
+  display: none;
+  top: 1%;
   font-size: 60pt;
   left: 31%;
 }

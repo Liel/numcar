@@ -15,7 +15,7 @@ class ProgressBarManager {
         color: '#FFEA82',
         trailColor: '#303030',
         trailWidth: 3,
-        svgStyle: {width: '100%', height: '100%'},
+            svgStyle: {width: '100%', height: '100%',transform: 'rotate(270deg)' },
         text: {
           style: {
             // Text color.
@@ -26,7 +26,6 @@ class ProgressBarManager {
             top: '23%',
             padding: 0,
             margin: 0,
-            transform: null
           },
           autoStyleContainer: false
         },
@@ -44,17 +43,17 @@ class ProgressBarManager {
 
     init(targetNumber) {
         this.targetNumber = targetNumber;
-        this.initLineProgressBar(targetNumber);
-        return;
+        //this.initLineProgressBar(targetNumber);
+        //return;
 
-        this.bar = new ProgressBar.SemiCircle(progress, {
+        this.bar = new ProgressBar.Circle(progress, {
             strokeWidth: 6,
             color: '#FFEA82',
             trailColor: 'silver',
-            trailWidth: 1,
+            trailWidth: 3,
             easing: 'easeInOut',
             duration: 1400,
-            svgStyle: null,
+            svgStyle: {},
             text: {
               value: '',
               alignToBottom: false
@@ -64,12 +63,14 @@ class ProgressBarManager {
             // Set default step function for all animate calls
             step: (state, bar) => {
               bar.path.setAttribute('stroke', state.color);
-              bar.setText((targetNumber - this.currentValue) + `<br /><div id='counter-label'>to make it ${targetNumber}!</div>`);
+//              bar.setText(Math.round(bar.value() * 100) + '%');
+          bar.setText(this.generateMessage());
+
               bar.text.style.color = state.color;
             }
           });
           this.bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
-          this.bar.text.style.fontSize = '2rem';
+          //this.bar.text.style = 'position: absolute;   margin: 56% 21%;';
 
           this.bar.animate(0);
     }
@@ -80,7 +81,7 @@ class ProgressBarManager {
       
       return `<div>
                 <div id="current-value">${this.currentValue}</div>
-                <div id="perc">${Math.round(this.bar.value() * 100) + ' %'}</div>
+                <div id="perc">${Math.round(this.bar.value() * 100) + '%'}</div>
                 <div id="target-value">${this.targetNumber}</div>
                 <div id="more">${this.targetNumber - this.currentValue} left!</div>
               </div>`
