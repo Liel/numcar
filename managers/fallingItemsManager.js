@@ -92,7 +92,8 @@ class dynamicItemsManager {
                 continue;
             }
             const newDynamicItem = newItemsPerPath[itemIdx]
-            const animationDuration = `animation-duration: ${this.speedInceasedNum}s; -webkit-animation-duration: ${this.speedInceasedNum}s; -moz-animation-duration: ${this.speedInceasedNum}s; -o-animation-duration: ${this.speedInceasedNum}s;`
+            const itemSpeed = this.randomizeSpeed()
+            const animationDuration = `animation-duration: ${itemSpeed}s; -webkit-animation-duration: ${itemSpeed}s; -moz-animation-duration: ${itemSpeed}s; -o-animation-duration: ${itemSpeed}s;`
             const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%; ${animationDuration}"
                                     item-id="${newDynamicItem.id}" 
                                     id="${newDynamicItem.id}"
@@ -159,7 +160,14 @@ class dynamicItemsManager {
         return Object.values(this.currentDynamicItems)
     }
 
+    // this method created so the items will be dynamic with a small gap
+    // and not falling together at the same line
+    randomizeSpeed() { 
+        randomIntFromInterval(this.speedInceasedNum - 0.1, this.speedInceasedNum + 0.1)
+    }
+
     increaseSpeed() {
-        this.speedInceasedNum-= 0.5;   
+        this.speedInceasedNum-= 1.5;   
+        // document.getElementById("container").style["-webkit-animation-duration"] = this.speedInceasedNum + "s";
     }
 }

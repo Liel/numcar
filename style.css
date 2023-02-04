@@ -156,7 +156,7 @@ div#welcome {
     background: black;
     color: white;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     align-content: center;
     text-align: center;
     height: 9%;
