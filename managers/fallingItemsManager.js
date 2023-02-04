@@ -4,6 +4,7 @@ class dynamicItemsManager {
     generateItemsTimeout;
     pathsCount;
     currentInstance;
+    speedInceasedNum = 28; // initial value should be aligned with 'fallingNum' css class
     itemTypes = {
         REGULAR_NUM: "REGULAR_NUM",
         OBSTACLE: "OBSTACLE",
@@ -91,7 +92,8 @@ class dynamicItemsManager {
                 continue;
             }
             const newDynamicItem = newItemsPerPath[itemIdx]
-            const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%"
+            const animationDuration = `animation-duration: ${this.speedInceasedNum}s; -webkit-animation-duration: ${this.speedInceasedNum}s; -moz-animation-duration: ${this.speedInceasedNum}s; -o-animation-duration: ${this.speedInceasedNum}s;`
+            const htmlItem = `<div style="left: ${randomIntFromInterval(numInPathPositionLeftRange[0], numInPathPositionLeftRange[1])}%; ${animationDuration}"
                                     item-id="${newDynamicItem.id}" 
                                     id="${newDynamicItem.id}"
                                     class='fallingNumber noselect ${newDynamicItem.class}'>${newDynamicItem.displayValue}<div>`
@@ -155,5 +157,9 @@ class dynamicItemsManager {
 
     getAllItems() {
         return Object.values(this.currentDynamicItems)
+    }
+
+    increaseSpeed() {
+        this.speedInceasedNum-= 0.5;   
     }
 }

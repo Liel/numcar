@@ -56,10 +56,10 @@ function gameLoop() {
             if(isReachedTargetNum) {
                 percentage = 100
                 gestureManagerInstance.showCoinsGesture(itemBoundries.top, itemBoundries.left);
+                dynamicItemsManagerInstance.increaseSpeed();
                 return;
             }
             updatePercentage()
-            console.log(aggregatedValue)
 
             if(currentDynamicItem.type == dynamicItemsManagerInstance.itemTypes.OBSTACLE) {
                 gestureManagerInstance.showObtacleCollidionGesture(currentDynamicItem.htmlElement, 

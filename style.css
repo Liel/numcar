@@ -98,6 +98,10 @@ div#welcome {
   animation: fallingNum 28s linear infinite;
 }
 
+.falling-faster {
+  animation-duration: 20s;
+}
+
 .gold {
     background-color: #fff000;
     color: #8d8300;
@@ -288,7 +292,7 @@ div#welcome {
   }  
 
   .main {
-    background-image: url(https://opengameart.org/sites/default/files/background-1_0.png);
+    background-image: url(assets/bgRoad.png);
     background-repeat-x: no-repeat;
     background-size: 110%;
     background-repeat-y: repeat;
